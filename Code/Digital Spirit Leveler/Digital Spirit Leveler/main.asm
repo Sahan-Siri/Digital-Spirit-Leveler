@@ -6,7 +6,228 @@
 ;
 
 
-; Replace with your application code
-start:
-    inc r16
-    rjmp start
+.INCLUDE "M328PDEF.INC"
+.CSEG
+.ORG 0X00
+;------------------------------------------------------------------------------------------------
+;DEFINE THE I/O PINS
+START:
+	SBI DDRC,0
+	LDI R16,0X40
+	STS ADMUX,R16 ;SET VCC AS REFERENCE,RIGHT-JUSTIFIED DATA,ADC0
+	LDI R16,0X87
+	STS ADCSRA,R16 ;ENABLE ADC,ADC PRESCALER CLK/128
+	LDI R16,0X0F
+	OUT DDRD,R16 ;SET PORT D O/P DATA
+	LDI R16,0X03 
+	OUT DDRB,R16 ;SET PORT D O/P COMMOND
+	CBI PORTB,0  ;EN=0
+	CALL DELAY_MS ;WAIT FOR LCD POWER ON
+	CALL LCD_INIT ;INTIALIZING THE LCD
+	LDI  R19, 48
+;--------------------------------------------------------------------------------------------------
+;MAIN FUNCTION
+MAIN:
+	CALL READ_ADC
+;-----------------------------------------------------------------------------------------------
+;LCD INITIALIZING
+LCD_INIT:
+	LDI R18,0X33
+	CALL COMMAND_WRITE ;INITIALIZING THE LCD FOR 4-BIT DATA 
+	CALL DELAY_MS
+	LDI R18,0X32
+	CALL COMMAND_WRITE ;INITIALIZING THE LCD FOR 4-BIT DATA
+	CALL DELAY_MS
+	LDI R18,0X28
+	CALL COMMAND_WRITE ;LCD 2 LINES,5X7 MATRIX
+	CALL DELAY_MS
+	LDI R18,0X0C
+	CALL COMMAND_WRITE ;DISPLAY ON,CURSOR OFF
+	LDI R18,0X01
+	CALL COMMAND_WRITE ;CLEAR LCD
+	CALL DELAY_MS
+	LDI R18,0X06
+	CALL COMMAND_WRITE ;SHIFT CURSOR RIGHT
+	CALL DELAY_MS
+	CALL WORD
+	CALL DELAY_MS
+	LDI R18 ,0XC0
+	CALL COMMAND_WRITE
+	CALL DELAY_MS
+	RET
+;------------------------------------------------------------------------------------------------
+;COMMAND WRITE
+COMMAND_WRITE:
+	MOV R27,R18
+	ANDI R27,0XF0 ;MASK LOW NIBBLE & KEEP HIGH NIBBLE
+	OUT PORTD,R27 ;O/P COMMAND HIGH NOBBLE TO PORT D
+	CBI PORTB,1   ;RS=0 FOR COMMAND
+	SBI PORTB,0   ;EN=1
+	CALL DELAY_SHORT
+	CBI PORTB,0   ;SEND A IMPLUSE TO THE EN PIN
+	CALL DELAY_US ;DELAY IN MICRO SECOND
+
+	MOV R27,R18
+	SWAP R27
+	ANDI R27,0XF0
+	OUT PORTD,R27
+	SBI PORTB,0
+	CALL DELAY_SHORT
+	CBI PORTB,0 ;SEND A IMPLUSE TO THE EN PIN
+	CALL DELAY_US
+	RET
+;-------------------------------------------------------------------------------------------------
+;DATA WRITE FUNCTION
+DATA_WRITE:
+	MOV R27,R18
+	ANDI R27,0XF0
+	OUT PORTD,R27
+	SBI PORTB,1
+	SBI PORTB,0
+	CALL DELAY_SHORT
+	CBI PORTB,0
+	CALL DELAY_SHORT
+	
+	MOV R27,R18
+	SWAP R27
+	ANDI R27,0XF0
+	OUT PORTD,R27
+	SBI PORTB,0
+	CALL DELAY_SHORT
+	CBI PORTB,0 
+	CALL DELAY_US
+	RET
+;---------------------------------------------------------------------------------------------------
+;PRINT THE ANGLE WORD IN THE LCD
+WORD:
+	LDI R18,'A'
+	CALL DATA_WRITE
+	LDI R18,'N'
+	CALL DATA_WRITE
+	LDI R18,'G'
+	CALL DATA_WRITE
+	LDI R18,'L'
+	CALL DATA_WRITE
+	LDI R18,'E'
+	CALL DATA_WRITE
+	LDI R18,' '
+	CALL DATA_WRITE
+	LDI R18,':'
+	CALL DATA_WRITE
+	LDI R18,' '
+	CALL DATA_WRITE
+	RET
+;-----------------------------------------------------------------------------------------------------
+;DELAY SHORT
+DELAY_SHORT:
+	NOP
+	NOP
+	RET
+;------------------------------------------------------------------------------------------------------
+;DELAY MICRO SECONDS
+DELAY_US:
+	LDI R20,90
+LOOP2:
+	CALL DELAY_SHORT
+	DEC R20
+	BRNE LOOP2
+	RET
+;------------------------------------------------------------------------------------------------------
+;DELAY MILISECONDS
+DELAY_MS:
+	LDI R21,40
+LOOP3:
+	CALL DELAY_US
+	DEC R21
+	BRNE LOOP3
+	RET
+;------------------------------------------------------------------------------------------------------
+;DELAY_SECONDS
+DELAY_SECONDS:
+	LDI R20,255
+LOOP4:
+	LDI R21,255
+LOOP5:
+	LDI R22,20
+LOOP6:
+	DEC R22
+	BRNE LOOP6
+	DEC R21
+	BRNE LOOP5
+	DEC R20
+	BRNE LOOP4
+	RET
+;-------------------------------------------------------------------------------------------------------
+;READ ADC
+READ_ADC:	
+	LDI R17,0XC7
+	STS ADCSRA,R17 ;SET ADSC IN ADCSRA TO START CONVERSION
+LOOP8:		
+	LDS R16,ADCSRA
+	SBRS R16,4 ;SKIP JUMP WHEN CONVERTION IS DONE (FLAG SET)
+	RJMP LOOP8
+	LDI R17,0XD7
+	STS ADCSRA,R17 ;TO SIGNAL 'READY-TO-BE-CLEARED' BY H/W
+	LDS R30,ADCL ;GET THE LOW-BYTE RESULT FROM ADCL
+	LDS R31,ADCH ;GET THE HIGH-BYTE RESULT FROM ADCH
+	CALL ASCII
+	RJMP READ_ADC
+;-------------------------------------------------------------------------------------------------------
+ASCII:
+	.EQU NUM = 0X3E8
+	CLR R23 ;SET THE COUNTER1 INTIAL VALUE O
+	CLR R24 ;SET THE COUNTER2 INTIAL VALUE O
+	CLR R25 ;SET THE COUNTER3 INTIAL VALUE O
+LOOP9:
+	CPI R31,HIGH(NUM) ;COMPARE R31 WITH 00000011
+	BRPL RUN1
+	RJMP LOOP10
+RUN1:
+	INC R23
+	SUBI R30,LOW(NUM)
+	SBCI R31,HIGH(NUM)
+	RJMP LOOP9
+LOOP10:
+	CPI R30,100 ;COMPARE R30 WITH 100
+RUN:
+	BRMI LOOP11 ;JUMP WHEN R30<100
+	INC R24
+	SUBI R30,100 ;R16=R16-100
+	RJMP LOOP10
+
+LOOP11:
+	CPI R30,10 ;COMPARE R30 WITH 10
+	BRMI DSP
+	INC R25
+	SUBI R30,10
+	RJMP LOOP11
+
+DSP:
+
+BRANCH1:
+	MOV R18,R23
+	ADD R18,R19
+	CALL DATA_WRITE
+
+BRANCH2:
+	MOV R18,R24
+	ADD R18,R19
+	CALL DATA_WRITE
+
+BRANCH3:
+	MOV R18,R25
+	ADD R18,R19
+	CALL DATA_WRITE
+
+BRANCH4:
+	MOV R18,R30
+	ADD R18,R19
+	CALL DATA_WRITE
+
+	CALL DELAY_SECONDS
+
+	LDI R18,0XC0
+	CALL COMMAND_WRITE
+	CALL DELAY_MS
+	RET
+;--------------------------------------------------------------------------------------------------------------

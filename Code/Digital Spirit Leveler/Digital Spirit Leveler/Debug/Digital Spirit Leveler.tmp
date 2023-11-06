@@ -1,0 +1,55 @@
+<ASSEMBLER_INFO>
+ <VERSION>2.2.8</VERSION>
+ <DEVICE>"ATmega328P"</DEVICE>
+ <WORKING_DIR>E:\OneDrive - University of Peradeniya\Project\Digital Spirit Leveler\Digital-Spirit-Leveler\Code\Digital Spirit Leveler\Digital Spirit Leveler\Debug</WORKING_DIR>
+ <INCLUDE_PATH>
+  <DIR>C:/Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\avrasm\inc</DIR>
+  <DIR>C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avrassembler\Include</DIR>
+  <DIR></DIR>
+ </INCLUDE_PATH>
+ <SOURCE_FILE>E:\OneDrive - University of Peradeniya\Project\Digital Spirit Leveler\Digital-Spirit-Leveler\Code\Digital Spirit Leveler\Digital Spirit Leveler\main.asm</SOURCE_FILE>
+ <INCLUDED_FILES>
+  <FILE>C:/Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\avrasm\inc\m328Pdef.inc</FILE>
+  <FILE>C:/Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\avrasm\inc\M328PDEF.INC</FILE>
+ </INCLUDED_FILES>
+ <OBJECT_FILES>
+  <FILE>E:\OneDrive - University of Peradeniya\Project\Digital Spirit Leveler\Digital-Spirit-Leveler\Code\Digital Spirit Leveler\Digital Spirit Leveler\Debug\Digital Spirit Leveler.obj</FILE>
+ </OBJECT_FILES>
+ <HEX_FILES>
+  <FILE>Digital Spirit Leveler.hex</FILE>
+ </HEX_FILES>
+ <OUTPUT_FILES>
+  <FILE>Digital Spirit Leveler.map</FILE>
+  <FILE>Digital Spirit Leveler.lss</FILE>
+ </OUTPUT_FILES>
+ <LABELS>
+  <START><FILE>E:\OneDrive - University of Peradeniya\Project\Digital Spirit Leveler\Digital-Spirit-Leveler\Code\Digital Spirit Leveler\Digital Spirit Leveler\main.asm</FILE><LINE>14</LINE></START>
+  <DELAY_MS><FILE>E:\OneDrive - University of Peradeniya\Project\Digital Spirit Leveler\Digital-Spirit-Leveler\Code\Digital Spirit Leveler\Digital Spirit Leveler\main.asm</FILE><LINE>137</LINE></DELAY_MS>
+  <LCD_INIT><FILE>E:\OneDrive - University of Peradeniya\Project\Digital Spirit Leveler\Digital-Spirit-Leveler\Code\Digital Spirit Leveler\Digital Spirit Leveler\main.asm</FILE><LINE>34</LINE></LCD_INIT>
+  <MAIN><FILE>E:\OneDrive - University of Peradeniya\Project\Digital Spirit Leveler\Digital-Spirit-Leveler\Code\Digital Spirit Leveler\Digital Spirit Leveler\main.asm</FILE><LINE>30</LINE></MAIN>
+  <READ_ADC><FILE>E:\OneDrive - University of Peradeniya\Project\Digital Spirit Leveler\Digital-Spirit-Leveler\Code\Digital Spirit Leveler\Digital Spirit Leveler\main.asm</FILE><LINE>162</LINE></READ_ADC>
+  <COMMAND_WRITE><FILE>E:\OneDrive - University of Peradeniya\Project\Digital Spirit Leveler\Digital-Spirit-Leveler\Code\Digital Spirit Leveler\Digital Spirit Leveler\main.asm</FILE><LINE>60</LINE></COMMAND_WRITE>
+  <WORD><FILE>E:\OneDrive - University of Peradeniya\Project\Digital Spirit Leveler\Digital-Spirit-Leveler\Code\Digital Spirit Leveler\Digital Spirit Leveler\main.asm</FILE><LINE>102</LINE></WORD>
+  <DELAY_SHORT><FILE>E:\OneDrive - University of Peradeniya\Project\Digital Spirit Leveler\Digital-Spirit-Leveler\Code\Digital Spirit Leveler\Digital Spirit Leveler\main.asm</FILE><LINE>122</LINE></DELAY_SHORT>
+  <DELAY_US><FILE>E:\OneDrive - University of Peradeniya\Project\Digital Spirit Leveler\Digital-Spirit-Leveler\Code\Digital Spirit Leveler\Digital Spirit Leveler\main.asm</FILE><LINE>128</LINE></DELAY_US>
+  <DATA_WRITE><FILE>E:\OneDrive - University of Peradeniya\Project\Digital Spirit Leveler\Digital-Spirit-Leveler\Code\Digital Spirit Leveler\Digital Spirit Leveler\main.asm</FILE><LINE>81</LINE></DATA_WRITE>
+  <LOOP2><FILE>E:\OneDrive - University of Peradeniya\Project\Digital Spirit Leveler\Digital-Spirit-Leveler\Code\Digital Spirit Leveler\Digital Spirit Leveler\main.asm</FILE><LINE>130</LINE></LOOP2>
+  <LOOP3><FILE>E:\OneDrive - University of Peradeniya\Project\Digital Spirit Leveler\Digital-Spirit-Leveler\Code\Digital Spirit Leveler\Digital Spirit Leveler\main.asm</FILE><LINE>139</LINE></LOOP3>
+  <DELAY_SECONDS><FILE>E:\OneDrive - University of Peradeniya\Project\Digital Spirit Leveler\Digital-Spirit-Leveler\Code\Digital Spirit Leveler\Digital Spirit Leveler\main.asm</FILE><LINE>146</LINE></DELAY_SECONDS>
+  <LOOP4><FILE>E:\OneDrive - University of Peradeniya\Project\Digital Spirit Leveler\Digital-Spirit-Leveler\Code\Digital Spirit Leveler\Digital Spirit Leveler\main.asm</FILE><LINE>148</LINE></LOOP4>
+  <LOOP5><FILE>E:\OneDrive - University of Peradeniya\Project\Digital Spirit Leveler\Digital-Spirit-Leveler\Code\Digital Spirit Leveler\Digital Spirit Leveler\main.asm</FILE><LINE>150</LINE></LOOP5>
+  <LOOP6><FILE>E:\OneDrive - University of Peradeniya\Project\Digital Spirit Leveler\Digital-Spirit-Leveler\Code\Digital Spirit Leveler\Digital Spirit Leveler\main.asm</FILE><LINE>152</LINE></LOOP6>
+  <LOOP8><FILE>E:\OneDrive - University of Peradeniya\Project\Digital Spirit Leveler\Digital-Spirit-Leveler\Code\Digital Spirit Leveler\Digital Spirit Leveler\main.asm</FILE><LINE>165</LINE></LOOP8>
+  <ASCII><FILE>E:\OneDrive - University of Peradeniya\Project\Digital Spirit Leveler\Digital-Spirit-Leveler\Code\Digital Spirit Leveler\Digital Spirit Leveler\main.asm</FILE><LINE>176</LINE></ASCII>
+  <LOOP9><FILE>E:\OneDrive - University of Peradeniya\Project\Digital Spirit Leveler\Digital-Spirit-Leveler\Code\Digital Spirit Leveler\Digital Spirit Leveler\main.asm</FILE><LINE>181</LINE></LOOP9>
+  <RUN1><FILE>E:\OneDrive - University of Peradeniya\Project\Digital Spirit Leveler\Digital-Spirit-Leveler\Code\Digital Spirit Leveler\Digital Spirit Leveler\main.asm</FILE><LINE>185</LINE></RUN1>
+  <LOOP10><FILE>E:\OneDrive - University of Peradeniya\Project\Digital Spirit Leveler\Digital-Spirit-Leveler\Code\Digital Spirit Leveler\Digital Spirit Leveler\main.asm</FILE><LINE>190</LINE></LOOP10>
+  <RUN><FILE>E:\OneDrive - University of Peradeniya\Project\Digital Spirit Leveler\Digital-Spirit-Leveler\Code\Digital Spirit Leveler\Digital Spirit Leveler\main.asm</FILE><LINE>192</LINE></RUN>
+  <LOOP11><FILE>E:\OneDrive - University of Peradeniya\Project\Digital Spirit Leveler\Digital-Spirit-Leveler\Code\Digital Spirit Leveler\Digital Spirit Leveler\main.asm</FILE><LINE>198</LINE></LOOP11>
+  <DSP><FILE>E:\OneDrive - University of Peradeniya\Project\Digital Spirit Leveler\Digital-Spirit-Leveler\Code\Digital Spirit Leveler\Digital Spirit Leveler\main.asm</FILE><LINE>205</LINE></DSP>
+  <BRANCH1><FILE>E:\OneDrive - University of Peradeniya\Project\Digital Spirit Leveler\Digital-Spirit-Leveler\Code\Digital Spirit Leveler\Digital Spirit Leveler\main.asm</FILE><LINE>207</LINE></BRANCH1>
+  <BRANCH2><FILE>E:\OneDrive - University of Peradeniya\Project\Digital Spirit Leveler\Digital-Spirit-Leveler\Code\Digital Spirit Leveler\Digital Spirit Leveler\main.asm</FILE><LINE>212</LINE></BRANCH2>
+  <BRANCH3><FILE>E:\OneDrive - University of Peradeniya\Project\Digital Spirit Leveler\Digital-Spirit-Leveler\Code\Digital Spirit Leveler\Digital Spirit Leveler\main.asm</FILE><LINE>217</LINE></BRANCH3>
+  <BRANCH4><FILE>E:\OneDrive - University of Peradeniya\Project\Digital Spirit Leveler\Digital-Spirit-Leveler\Code\Digital Spirit Leveler\Digital Spirit Leveler\main.asm</FILE><LINE>222</LINE></BRANCH4>
+ </LABELS>
+</ASSEMBLER_INFO>
