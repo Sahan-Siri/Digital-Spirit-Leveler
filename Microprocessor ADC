@@ -1,0 +1,24 @@
+VCC -
+Digital supply Voltage
+
+AVcc -  
+The supply voltage pin for the A/D converter, PC3:0, and ADC7:6. It should be externally connected to VCC, even if the ADC is not used. If the ADC is used, it should be connected to VCC through a low-pass filter. Note that PC6..4 use digital supply voltage, VCC
+ 
+AREF - 
+AREF is the analog reference pin for the A/D converter
+ 
+ADC7:6 -
+In the TQFP and QFN/MLF package, ADC7:6 serve as analog inputs to the A/D converter. These pins are powered from the analog supply and serve as 10-bit ADC channels.
+
+**Avcc - must not differ more than +/- 0.3 from Vcc** This is why we have to change the voltage range to 0 - 5 V
+ 
+Internal reference voltages of nominally 1.1V or AVCC are provided on-chip. The voltage reference may be externally decoupled at the AREF pin by a capacitor for better noise performance
+ 
+
+Scaling Circuit
+ 
+Page No 626 Reference book
+ 
+Voltage Translation Circuit
+ 
+Page No 627 Reference book
