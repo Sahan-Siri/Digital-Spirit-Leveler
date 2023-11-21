@@ -1,0 +1,80 @@
+Measurand - Acceleration with a minimum full scale range of +/- 3g, the static acceleration of gravity in tilt sensing applications
+
+Supply Voltage - 3 V (mostly)Measurand - Acceleration with a minimum full scale range of +/- 3g, the static acceleration of gravity in tilt sensing applications
+
+Supply Voltage - 3 V (mostly)
+Bias Level at Zero g (No acceleration in any axis) - 1.5 V
+
+**Power Supply Decoupling**
+
+A single 0.1 uF capacitor - CDC (For the noise of the power supply)
+If noise at the 50 kHz internal clock frequency (or any harmonic thereof), additional care needed.
+
+A 100 Ω (or smaller) resistor or ferrite bead can be inserted in the supply line. 
+Additionally, a larger bulk bypass capacitor (1 μF or greater) can be added in parallel to CDC. Ensure that the connection from the ADXL335 ground to the power supply ground is low impedance.
+
+**Setting the Bandwidth using Cx, Cy, Cz**
+
+Capacitors must be added at these pins to implement low-pass filtering for antialiasing and noise reduction.
+
+A minimum capacitance of 0.0047 μF for CX, CY, and CZ is recommended in all case.
+
+Bandwidth (Hz)             Capacitor (uF)
+
+1                             4.7
+10                            0.47
+50                            0.1
+100                           0.05
+200                           0.027
+500                           0.01
+
+**Design Trade Offs for Selecting Filter Characteristics**
+
+Accelerometer BW determines the measurement resolution
+
+Typical BW - greater than 500 Hz
+Analog Bandwidth < A to D sampling frequency / 2
+
+Limit the bandwidth to the lowest frequency needed by the application to maximize the resolution and dynamic range of the accelerometer
+
+Expecting voltage ranges in Z axis -  1.2 - 1.8
+Since there is a 1.5 V bias voltage, that bias voltage should be removed and also range should be distributed to 0 - 5 V (AVCC of Microprocessor) to get full range of ADC input availability
+
+Bias Level at Zero g (No acceleration in any axis) - 1.5 V
+
+**Power Supply Decoupling**
+
+A single 0.1 uF capacitor - CDC (For the noise of the power supply)
+If noise at the 50 kHz internal clock frequency (or any harmonic thereof), additional care needed.
+
+A 100 Ω (or smaller) resistor or ferrite bead can be inserted in the supply line. 
+Additionally, a larger bulk bypass capacitor (1 μF or greater) can be added in parallel to CDC. Ensure that the connection from the ADXL335 ground to the power supply ground is low impedance.
+
+**Setting the Bandwidth using Cx, Cy, Cz**
+
+Capacitors must be added at these pins to implement low-pass filtering for antialiasing and noise reduction.
+
+A minimum capacitance of 0.0047 μF for CX, CY, and CZ is recommended in all case.
+
+Bandwidth (Hz)             Capacitor (uF)
+
+1                             4.7
+10                            0.47
+50                            0.1
+100                           0.05
+200                           0.027
+500                           0.01
+
+**Design Trade Offs for Selecting Filter Characteristics**
+
+Accelerometer BW determines the measurement resolution
+
+Typical BW - greater than 500 Hz
+Analog Bandwidth < A to D sampling frequency / 2
+
+Limit the bandwidth to the lowest frequency needed by the application to maximize the resolution and dynamic range of the accelerometer
+
+Expecting voltage ranges in Z axis -  1.2 - 1.8
+Since there is a 1.5 V bias voltage, that bias voltage should be removed and also range should be distributed to 0 - 5 V (AVCC of Microprocessor) to get full range of ADC input availability
+
+
