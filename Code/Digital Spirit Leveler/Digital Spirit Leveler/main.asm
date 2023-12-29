@@ -37,6 +37,13 @@
 .EQU PI=0X13A
 .EQU UPPER_MULTI=0X3840
 
+.EQU NINTY = 0B01011010
+.EQU SEVENTY = 0B01000110
+.EQU SIXTYNINE = 0B01000101
+.EQU FOURTY = 0B00101000
+.EQU THIRTYNINE = 0B00100111
+.EQU FIVE = 0B00000101
+
 ;-------------------------------!!!!!TESTING PURPOSE ONLY!!!!!-----------------------------------
 .EQU CHECK1 =0X32 ;50
 .EQU CHECK2 =0X14 ;20
@@ -106,9 +113,21 @@ LOOP_ADC2:
 	LDS R30,A0_LOW
 	LDS R31,A0_HIGH
 	RCALL MAP
+
+
+
+
+	;----------------------------------------------------------------------------------------------
+
 	STS A0_SIGN,R22
 	STS A0_LOW,R16
 	STS A0_HIGH,R17
+
+	;-----------------------------------------------------------------------------------------------
+
+
+
+
 
 	LDS R30,C0_LOW
 	LDS R31,C0_HIGH
@@ -277,6 +296,12 @@ ROOT2:
 	RCALL DIV
 ;-------------------------FINAL VALUE IS SAVE IN THE RELAVANT MEMORY ADDRESS--------------------
 	STS FINAL,R16
+
+
+
+
+
+
 ;-----------------------------------------------------------------------------------------------
 	MOV R30,R16
 	LDI  R19,48
@@ -288,7 +313,76 @@ ROOT2:
 ;IF YOU WANT THE GET THE FINAL VALUE AND THE SIGN OF THE FINAL VALUE YOU CAN USE "FINAL" MEMORY ADDRESS TO ACCESS THE FINAL VALUE AND THE SIGN CAN BE GET BY ACCESS "A0_SIGN"
 ;MEMORY ADDRESS IN THE SIGN MEMORY "1" REPRESENT NEGATIVE AS WELL AS "0" REPRESENT THE POSITIVE 
 
+;---------------------------------------LED PART------------------------------------------------	
+	LDS R20, FINAL
+	LDS R21, A0_SIGN
+	
+	
+	LDI R17, FIVE
+	CP R20, R17	
+	BRSH SIGNCHECK
+	LDI R16, 0B00000100
+	LDI R17, 0B00000001
+	OUT PORTD, R17
+	OUT PORTB, R16
+	RCALL CLEAR
+	RJMP MAIN
 
+SIGNCHECK:
+	AND R21, R18
+	CP R18, R21
+	BREQ MINUSSIGNAL
+	BRNE PLUSSIGNAL
+
+MINUSSIGNAL:
+	LDI R17, FOURTY
+	CP  R20, R17
+	BRSH MINUSSEVENTY
+	LDI R16, 0B00000100
+	OUT PORTB, R16
+	RCALL CLEAR
+	RJMP MAIN
+
+	MINUSSEVENTY:
+		LDI R17, SEVENTY
+		CP R20, R17
+		BRSH MINUSNINTY
+		LDI R16, 0B00001100
+		OUT PORTB, R16
+		RCALL CLEAR
+		RJMP MAIN
+
+		MINUSNINTY:
+			LDI R16, 0B00011100
+			OUT PORTB, R16
+			RCALL CLEAR
+			RJMP MAIN
+
+PLUSSIGNAL:
+	LDI R17, FOURTY
+	CP  R20, R17
+	BRSH PLUSSEVENTY
+	LDI R17, 0B00000001
+	OUT PORTD, R17
+	RCALL CLEAR
+	RJMP MAIN
+
+	PLUSSEVENTY:
+		LDI R17, SEVENTY
+		CP R20, R17
+		BRSH PLUSNINTY
+		LDI R17, 0B00000011
+		OUT PORTD, R17
+		RCALL CLEAR
+		RJMP MAIN
+
+		PLUSNINTY:
+			LDI R17, 0B00000111
+			OUT PORTD, R17
+			RCALL CLEAR
+			RJMP MAIN
+
+;--------------------------------LED PART END---------------------------------------------------
 ;-----------------------------------------------------------------------------------------------
 	RJMP MAIN
 	
