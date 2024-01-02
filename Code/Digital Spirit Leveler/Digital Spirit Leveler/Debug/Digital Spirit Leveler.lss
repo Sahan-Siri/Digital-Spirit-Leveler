@@ -1,5 +1,5 @@
 
-AVRASM ver. 2.2.8  E:\OneDrive - University of Peradeniya\Project\Digital Spirit Leveler\Digital-Spirit-Leveler\Code\Digital Spirit Leveler\Digital Spirit Leveler\main.asm Tue Jan 02 19:52:06 2024
+AVRASM ver. 2.2.8  E:\OneDrive - University of Peradeniya\Project\Digital Spirit Leveler\Digital-Spirit-Leveler\Code\Digital Spirit Leveler\Digital Spirit Leveler\main.asm Tue Jan 02 19:54:32 2024
 
 [builtin](2): Including file 'C:/Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\avrasm\inc\m328Pdef.inc'
 E:\OneDrive - University of Peradeniya\Project\Digital Spirit Leveler\Digital-Spirit-Leveler\Code\Digital Spirit Leveler\Digital Spirit Leveler\main.asm(9): Including file 'C:/Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\avrasm\inc\M328PDEF.INC'
@@ -1091,7 +1091,7 @@ E:\OneDrive - University of Peradeniya\Project\Digital Spirit Leveler\Digital-Sp
 000006 ef0f                      	LDI R16,0XFF
 000007 b90a                      	OUT DDRD,R16 ;SET PORT D O/P DATA
 000008 ef0f                      	LDI R16,0XFF 
-000009 b904                      	OUT DDRB,R16 ;SET PORT D O/P COMMOND
+000009 b904                      	OUT DDRB,R16 ;SET PORT B O/P COMMOND
 00000a 9828                      	CBI PORTB,0  ;EN=0
 00000b d247                      	RCALL DELAY_MS ;WAIT FOR LCD POWER ON
 00000c d13d                      	RCALL LCD_INIT ;INTIALIZING THE LCD
