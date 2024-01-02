@@ -45,8 +45,8 @@
 .EQU FIVE = 0B00000101
 
 ;-------------------------------!!!!!TESTING PURPOSE ONLY!!!!!-----------------------------------
-.EQU CHECK1 =0X32 ;50
-.EQU CHECK2 =0X14 ;20
+;.EQU CHECK1 =0X32 ;50
+;.EQU CHECK2 =0X14 ;20
 ;------------------------------------------------------------------------------------------------
 
 ;------------------------------------------------------------------------------------------------
@@ -54,7 +54,7 @@
 START:
 	LDI R16,0X40
 	STS ADMUX,R16 ;SET VCC AS REFERENCE,RIGHT-JUSTIFIED DATA,ADC0
-	LDI R16,0B10000001
+	LDI R16,0B10000111
 	STS ADCSRA,R16 ;ENABLE ADC,ADC PRESCALER CLK/128
 	
 	LDI R16,0XFF
@@ -64,12 +64,6 @@ START:
 	CBI PORTB,0  ;EN=0
 	RCALL DELAY_MS ;WAIT FOR LCD POWER ON
 	RCALL LCD_INIT ;INTIALIZING THE LCD
-;-----------------------------DEFINE SRAM STACK----------------------------------------------------
-	LDI R20,HIGH(RAMEND)
-	OUT SPH,R20
-	LDI R20,LOW(RAMEND)
-	OUT SPL,R20
-;--------------------------------------------------------------------------------------------------
 
 ;--------------------------------------------------------------------------------------------------
 ;MAIN FUNCTION
@@ -298,10 +292,6 @@ ROOT2:
 	STS FINAL,R16
 
 
-
-
-
-
 ;-----------------------------------------------------------------------------------------------
 	MOV R30,R16
 	LDI  R19,48
@@ -310,7 +300,7 @@ ROOT2:
 	RCALL CLEAR
 ;-----------------------------------------------------------------------------------------------
 
-;IF YOU WANT THE GET THE FINAL VALUE AND THE SIGN OF THE FINAL VALUE YOU CAN USE "FINAL" MEMORY ADDRESS TO ACCESS THE FINAL VALUE AND THE SIGN CAN BE GET BY ACCESS "A0_SIGN"
+;IF YOU WANT TO THE GET THE FINAL VALUE AND THE SIGN OF THE FINAL VALUE YOU CAN USE "FINAL" MEMORY ADDRESS TO ACCESS THE FINAL VALUE AND THE SIGN CAN BE GET BY ACCESS "A0_SIGN"
 ;MEMORY ADDRESS IN THE SIGN MEMORY "1" REPRESENT NEGATIVE AS WELL AS "0" REPRESENT THE POSITIVE 
 
 	
