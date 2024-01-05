@@ -1,5 +1,5 @@
 
-AVRASM ver. 2.2.8  E:\OneDrive - University of Peradeniya\Project\Digital Spirit Leveler\Digital-Spirit-Leveler\Code\Digital Spirit Leveler\Digital Spirit Leveler\main.asm Tue Jan 02 19:54:32 2024
+AVRASM ver. 2.2.8  E:\OneDrive - University of Peradeniya\Project\Digital Spirit Leveler\Digital-Spirit-Leveler\Code\Digital Spirit Leveler\Digital Spirit Leveler\main.asm Thu Jan 04 21:11:42 2024
 
 [builtin](2): Including file 'C:/Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\avrasm\inc\m328Pdef.inc'
 E:\OneDrive - University of Peradeniya\Project\Digital Spirit Leveler\Digital-Spirit-Leveler\Code\Digital Spirit Leveler\Digital Spirit Leveler\main.asm(9): Including file 'C:/Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\avrasm\inc\M328PDEF.INC'
@@ -1048,25 +1048,47 @@ E:\OneDrive - University of Peradeniya\Project\Digital Spirit Leveler\Digital-Sp
                                  .EQU A0_HIGH = 0X0146
                                  .EQU C0_LOW = 0X0147
                                  .EQU C0_HIGH = 0X0148
-                                 .EQU A0_SQURE_LOW=0X0149
-                                 .EQU A0_SQURE_MID=0X014A
-                                 .EQU A0_SQURE_HIGH=0X014B
-                                 .EQU C0_SQURE_LOW=0X014C
-                                 .EQU C0_SQURE_MID=0X014D
-                                 .EQU C0_SQURE_HIGH=0X014E
-                                 .EQU SQURE_LOW=0X014F
-                                 .EQU SQURE_MID=0X0150
-                                 .EQU SQURE_HIGH=0X0151
+                                 .EQU B0_LOW = 0X0149
+                                 .EQU B0_HIGH = 0X014A
+                                 .EQU A0_SQURE_LOW=0X014B
+                                 .EQU A0_SQURE_MID=0X014C
+                                 .EQU A0_SQURE_HIGH=0X014D
+                                 .EQU C0_SQURE_LOW=0X014E
+                                 .EQU C0_SQURE_MID=0X014F
+                                 .EQU C0_SQURE_HIGH=0X0150
+                                 .EQU B0_SQURE_LOW=0X0151
+                                 .EQU B0_SQURE_MID=0X0152
+                                 .EQU B0_SQURE_HIGH=0X0153
+                                 .EQU SQURE_LOW=0X0154
+                                 .EQU SQURE_MID=0X0155
+                                 .EQU SQURE_HIGH=0X0156
                                  
                                  
-                                 .EQU A0_SIGN=0X0152
-                                 .EQU C0_SIGN=0X0153
-                                 .EQU FINAL=0X0154
+                                 .EQU A0_SIGN=0X0157
+                                 .EQU C0_SIGN=0X0158
+                                 .EQU B0_SIGN=0X0159
+                                 .EQU X_FINAL=0X015A
+                                 .EQU Y_FINAL=0X015B
+                                 .EQU Z_FINAL=0X015C
+                                 
+                                 .EQU DOWN_ROOT_01_L=0X015D
+                                 .EQU DOWN_ROOT_01_M=0X015E
+                                 .EQU DOWN_ROOT_01_H=0X015F
+                                 .EQU DOWN_ROOT_02_L=0X0160
+                                 .EQU DOWN_ROOT_02_M=0X0161
+                                 .EQU DOWN_ROOT_02_H=0X0162
+                                 .EQU DOWN_ROOT_03_L=0X0163
+                                 .EQU DOWN_ROOT_03_M=0X0164
+                                 .EQU DOWN_ROOT_03_H=0X0165
+                                 .EQU TEMP_L=0X0166
+                                 .EQU TEMP_M=0X0167
+                                 .EQU TEMP_H=0X0168
                                  
                                  .EQU NUM1=0X64  ;100
                                  .EQU SUB_NUM=0X1ED;493
                                  .EQU PI=0X13A
                                  .EQU UPPER_MULTI=0X3840
+                                 .EQU R0_SIGN=0X00
                                  
                                  .EQU NINTY = 0B01011010
                                  .EQU SEVENTY = 0B01000110
@@ -1093,8 +1115,8 @@ E:\OneDrive - University of Peradeniya\Project\Digital Spirit Leveler\Digital-Sp
 000008 ef0f                      	LDI R16,0XFF 
 000009 b904                      	OUT DDRB,R16 ;SET PORT B O/P COMMOND
 00000a 9828                      	CBI PORTB,0  ;EN=0
-00000b d247                      	RCALL DELAY_MS ;WAIT FOR LCD POWER ON
-00000c d13d                      	RCALL LCD_INIT ;INTIALIZING THE LCD
+00000b d2d0                      	RCALL DELAY_MS ;WAIT FOR LCD POWER ON
+00000c d1be                      	RCALL LCD_INIT ;INTIALIZING THE LCD
                                  
                                  ;--------------------------------------------------------------------------------------------------
                                  ;MAIN FUNCTION
@@ -1135,31 +1157,52 @@ E:\OneDrive - University of Peradeniya\Project\Digital Spirit Leveler\Digital-Sp
 00003a e010                      	LDI R17,0X00
 00003b 9310 007a                 	STS ADCSRA,R17 ;TO SIGNAL 'READY-TO-BE-CLEARED' BY H/W
                                  
-00003d 91e0 0145                 	LDS R30,A0_LOW
-00003f 91f0 0146                 	LDS R31,A0_HIGH
-000041 d176                      	RCALL MAP
+00003d e402                      	LDI R16,0X42
+00003e 9300 007c                 	STS ADMUX,R16 ;SET VCC AS REFERENCE,RIGHT-JUSTIFIED DATA,ADC0
+                                 READ_ADC_03:	
+000040 ec17                      	LDI R17,0XC7
+000041 9310 007a                 	STS ADCSRA,R17 ;SET ADSC IN ADCSRA TO START CONVERSION
+                                 LOOP_ADC3:		
+000043 9100 007a                 	LDS R16,ADCSRA
+000045 ff04                      	SBRS R16,4 ;SKIP JUMP WHEN CONVERTION IS DONE (FLAG SET)
+000046 cfcc                      	RJMP LOOP_ADC1
+000047 ed17                      	LDI R17,0XD7
+000048 9310 007a                 	STS ADCSRA,R17 ;TO SIGNAL 'READY-TO-BE-CLEARED' BY H/W
+00004a 91e0 0078                 	LDS R30,ADCL ;GET THE LOW-BYTE RESULT FROM ADCL
+00004c 91f0 0079                 	LDS R31,ADCH ;GET THE HIGH-BYTE RESULT FROM ADCH
+00004e 93e0 0149                 	STS B0_LOW,R30
+000050 93f0 014a                 	STS B0_HIGH,R31
+000052 e010                      	LDI R17,0X00
+000053 9310 007a                 	STS ADCSRA,R17 ;TO SIGNAL 'READY-TO-BE-CLEARED' BY H/W
                                  
                                  
-                                 
+000055 91e0 0145                 	LDS R30,A0_LOW
+000057 91f0 0146                 	LDS R31,A0_HIGH
+000059 d1e7                      	RCALL MAP
                                  
                                  	;----------------------------------------------------------------------------------------------
                                  
-000042 9360 0152                 	STS A0_SIGN,R22
-000044 9300 0145                 	STS A0_LOW,R16
-000046 9310 0146                 	STS A0_HIGH,R17
+00005a 9360 0157                 	STS A0_SIGN,R22
+00005c 9300 0145                 	STS A0_LOW,R16
+00005e 9310 0146                 	STS A0_HIGH,R17
                                  
                                  	;-----------------------------------------------------------------------------------------------
                                  
+000060 91e0 0147                 	LDS R30,C0_LOW
+000062 91f0 0148                 	LDS R31,C0_HIGH
+000064 d1dc                      	RCALL MAP
+000065 9360 0158                 	STS C0_SIGN,R22
+000067 9300 0147                 	STS C0_LOW,R16
+000069 9310 0148                 	STS C0_HIGH,R17
                                  
+                                 	;-----------------------------------------------------------------------------------------------
                                  
-                                 
-                                 
-000048 91e0 0147                 	LDS R30,C0_LOW
-00004a 91f0 0148                 	LDS R31,C0_HIGH
-00004c d16b                      	RCALL MAP
-00004d 9360 0153                 	STS C0_SIGN,R22
-00004f 9300 0147                 	STS C0_LOW,R16
-000051 9310 0148                 	STS C0_HIGH,R17
+00006b 91e0 0149                 	LDS R30,B0_LOW
+00006d 91f0 014a                 	LDS R31,B0_HIGH
+00006f d1d1                      	RCALL MAP
+000070 9360 0159                 	STS B0_SIGN,R22
+000072 9300 0149                 	STS B0_LOW,R16
+000074 9310 014a                 	STS B0_HIGH,R17
                                  
                                  ;-------------------------------!!!!!TESTING PURPOSE ONLY!!!!!-------------------------------------
                                  	;LDI R18,LOW(CHECK1)
@@ -1168,17 +1211,17 @@ E:\OneDrive - University of Peradeniya\Project\Digital Spirit Leveler\Digital-Sp
                                  	;STS A0_HIGH,R18
                                  ;--------------------------------------------------------------------------------------------------
                                  
-000053 9120 0145                 	LDS R18,A0_LOW
-000055 91b0 0146                 	LDS R27,A0_HIGH
-000057 d1ab                      	RCALL POWER
-000058 9220 0149                 	STS A0_SQURE_LOW,RES1;LOW BYTE
-00005a 9230 014a                 	STS A0_SQURE_MID,RES2;MID BYTE
-00005c 9240 014b                 	STS A0_SQURE_HIGH,RES3;HIGH BYTE
-00005e d203                      	RCALL CLEAR
-00005f 2422                      	CLR RES1
-000060 2433                      	CLR RES2
-000061 2444                      	CLR RES3
-000062 2455                      	CLR RES4
+000076 9120 0145                 	LDS R18,A0_LOW
+000078 91b0 0146                 	LDS R27,A0_HIGH
+00007a d211                      	RCALL POWER
+00007b 9220 014b                 	STS A0_SQURE_LOW,RES1;LOW BYTE
+00007d 9230 014c                 	STS A0_SQURE_MID,RES2;MID BYTE
+00007f 9240 014d                 	STS A0_SQURE_HIGH,RES3;HIGH BYTE
+000081 d269                      	RCALL CLEAR
+000082 2422                      	CLR RES1
+000083 2433                      	CLR RES2
+000084 2444                      	CLR RES3
+000085 2455                      	CLR RES4
                                  
                                  ;-------------------------------!!!!!TESTING PURPOSE ONLY!!!!!-------------------------------------
                                  
@@ -1189,146 +1232,236 @@ E:\OneDrive - University of Peradeniya\Project\Digital Spirit Leveler\Digital-Sp
                                  
                                  ;--------------------------------------------------------------------------------------------------
                                  
-000063 9120 0147                 	LDS R18,C0_LOW
-000065 91b0 0148                 	LDS R27,C0_HIGH
-000067 d19b                      	RCALL POWER
-000068 9220 014c                 	STS C0_SQURE_LOW,RES1;LOW BYTE
-00006a 9230 014d                 	STS C0_SQURE_MID,RES2;MID BYTE
-00006c 9240 014e                 	STS C0_SQURE_HIGH,RES3;HIGH BYTE
-00006e d1f3                      	RCALL CLEAR
-00006f 2422                      	CLR RES1
-000070 2433                      	CLR RES2
-000071 2444                      	CLR RES3
-000072 2455                      	CLR RES4
-                                 	;-----25XC0^2------
-000073 e109                      	LDI R16,0X19;
-000074 e010                      	LDI R17,0X00
-000075 91e0 014c                 	LDS R30,C0_SQURE_LOW
-000077 91f0 014d                 	LDS R31,C0_SQURE_MID
-000079 d152                      	RCALL MULTI
-00007a 9220 014c                 	STS C0_SQURE_LOW,RES1;LOW BYTE
-00007c 9230 014d                 	STS C0_SQURE_MID,RES2;MID BYTE
-00007e 9240 014e                 	STS C0_SQURE_HIGH,RES3;HIGH BYTE
-000080 d1e1                      	RCALL CLEAR
-000081 2422                      	CLR RES1
-000082 2433                      	CLR RES2
-000083 2444                      	CLR RES3
-000084 2455                      	CLR RES4
+000086 9120 0147                 	LDS R18,C0_LOW
+000088 91b0 0148                 	LDS R27,C0_HIGH
+00008a d201                      	RCALL POWER
+00008b 9220 014e                 	STS C0_SQURE_LOW,RES1;LOW BYTE
+00008d 9230 014f                 	STS C0_SQURE_MID,RES2;MID BYTE
+00008f 9240 0150                 	STS C0_SQURE_HIGH,RES3;HIGH BYTE
+000091 d259                      	RCALL CLEAR
+000092 2422                      	CLR RES1
+000093 2433                      	CLR RES2
+000094 2444                      	CLR RES3
+000095 2455                      	CLR RES4
+                                 
+                                 ;--------------------------------------------------------------------------------------------------
+                                 
+000096 9120 0149                 	LDS R18,B0_LOW
+000098 91b0 014a                 	LDS R27,B0_HIGH
+00009a d1f1                      	RCALL POWER
+00009b 9220 0151                 	STS B0_SQURE_LOW,RES1;LOW BYTE
+00009d 9230 0152                 	STS B0_SQURE_MID,RES2;MID BYTE
+00009f 9240 0153                 	STS B0_SQURE_HIGH,RES3;HIGH BYTE
+0000a1 d249                      	RCALL CLEAR
+0000a2 2422                      	CLR RES1
+0000a3 2433                      	CLR RES2
+0000a4 2444                      	CLR RES3
+0000a5 2455                      	CLR RES4
+                                 
+                                 ;--------------------------------------------------------------------------------------------------
+                                 ;SQRT(A^2+C^2)
+0000a6 9100 014b                 	LDS R16,A0_SQURE_LOW
+0000a8 9110 014c                 	LDS R17,A0_SQURE_MID
+0000aa 9120 014d                 	LDS R18,A0_SQURE_HIGH
+                                 
+0000ac 9130 014e                 	LDS R19,C0_SQURE_LOW
+0000ae 9140 014f                 	LDS R20,C0_SQURE_MID
+0000b0 9150 0150                 	LDS R21,C0_SQURE_HIGH
+                                 
+0000b2 1f03                      	ADC R16,R19
+0000b3 1f14                      	ADC R17,R20
+0000b4 1f25                      	ADC R18,R21
+                                 
+0000b5 2f80                      	MOV R24,R16
+0000b6 2f91                      	MOV R25,R17
+0000b7 2fa2                      	MOV R26,R18
+0000b8 d1d9                      	RCALL SQURE_ROOT
+                                 
+0000b9 9340 015d                 	STS DOWN_ROOT_01_L,R20
+0000bb 9350 015e                 	STS DOWN_ROOT_01_M,R21
+                                 
+                                 ;--------------------------------------------------------------------------------------------------
+                                 ;SQRT(B^2+C^2)
+0000bd 9100 0151                 	LDS R16,B0_SQURE_LOW
+0000bf 9110 0152                 	LDS R17,B0_SQURE_MID
+0000c1 9120 0153                 	LDS R18,B0_SQURE_HIGH
+                                 
+0000c3 9130 014e                 	LDS R19,C0_SQURE_LOW
+0000c5 9140 014f                 	LDS R20,C0_SQURE_MID
+0000c7 9150 0150                 	LDS R21,C0_SQURE_HIGH
+                                 
+0000c9 1f03                      	ADC R16,R19
+0000ca 1f14                      	ADC R17,R20
+0000cb 1f25                      	ADC R18,R21
+                                 
+0000cc 2f80                      	MOV R24,R16
+0000cd 2f91                      	MOV R25,R17
+0000ce 2fa2                      	MOV R26,R18
+0000cf d1c2                      	RCALL SQURE_ROOT
+                                 
+0000d0 9340 0160                 	STS DOWN_ROOT_02_L,R20
+0000d2 9350 0161                 	STS DOWN_ROOT_02_M,R21
+                                 
+                                 ;--------------------------------------------------------------------------------------------------
+                                 ;SQRT(A^2+B^2)
+0000d4 9100 014b                 	LDS R16,A0_SQURE_LOW
+0000d6 9110 014c                 	LDS R17,A0_SQURE_MID
+0000d8 9120 014d                 	LDS R18,A0_SQURE_HIGH
+                                 
+0000da 9130 0151                 	LDS R19,B0_SQURE_LOW
+0000dc 9140 0152                 	LDS R20,B0_SQURE_MID
+0000de 9150 0153                 	LDS R21,B0_SQURE_HIGH
+                                 
+0000e0 1f03                      	ADC R16,R19
+0000e1 1f14                      	ADC R17,R20
+0000e2 1f25                      	ADC R18,R21
+                                 
+0000e3 2f80                      	MOV R24,R16
+0000e4 2f91                      	MOV R25,R17
+0000e5 2fa2                      	MOV R26,R18
+0000e6 d1ab                      	RCALL SQURE_ROOT
+                                 
+0000e7 9340 0163                 	STS DOWN_ROOT_03_L,R20
+0000e9 9350 0164                 	STS DOWN_ROOT_03_M,R21
+                                 
+                                 
+0000eb d1ff                      	RCALL CLEAR
+                                 ;------------------------------------------X-----------------------------------------
+                                 
+                                 	;-----25XD1^2------
+0000ec e109                      	LDI R16,0X19;
+0000ed e010                      	LDI R17,0X00
+0000ee 91e0 015d                 	LDS R30,DOWN_ROOT_01_L
+0000f0 91f0 015e                 	LDS R31,DOWN_ROOT_01_M
+0000f2 91b0 015f                 	LDS R27,DOWN_ROOT_01_H
+0000f4 93e0 0166                 	STS TEMP_L,R30
+0000f6 93f0 0167                 	STS TEMP_M,R31
+0000f8 93b0 0168                 	STS TEMP_H,R27
+0000fa 27bb                      	CLR R27
+0000fb d159                      	RCALL MULTI
+0000fc 9220 015d                 	STS DOWN_ROOT_01_L,RES1;LOW BYTE
+0000fe 9230 015e                 	STS DOWN_ROOT_01_M,RES2;MID BYTE
+000100 9240 015f                 	STS DOWN_ROOT_01_H,RES3;HIGH BYTE
+000102 d1e8                      	RCALL CLEAR
+000103 2422                      	CLR RES1
+000104 2433                      	CLR RES2
+000105 2444                      	CLR RES3
+000106 2455                      	CLR RES4
                                  	;------------------
-                                 	;-----80XA0^2------
-000085 e500                      	LDI R16,0X50;
-000086 e010                      	LDI R17,0X00
-000087 91e0 0149                 	LDS R30,A0_SQURE_LOW
-000089 91f0 014a                 	LDS R31,A0_SQURE_MID
-00008b d140                      	RCALL MULTI
-00008c 2d12                      	MOV R17,RES1  ;R2 ;LOW BYTE
-00008d 2d23                      	MOV R18,RES2  ;R3 ;MID BYTE
-00008e 2d44                      	MOV R20,RES3  ;R4 ;HIGH BYTE
-00008f 9220 0149                 	STS A0_SQURE_LOW,RES1;LOW BYTE
-000091 9230 014a                 	STS A0_SQURE_MID,RES2;MID BYTE
-000093 9240 014b                 	STS A0_SQURE_HIGH,RES3;HIGH BYTE
-000095 2422                      	CLR RES1
-000096 2433                      	CLR RES2
-000097 2444                      	CLR RES3
-000098 2455                      	CLR RES4
-000099 d1c8                      	RCALL CLEAR
-                                 	;-----(80XA0^2)/3------
-00009a 9110 0149                 	LDS R17,A0_SQURE_LOW
-00009c 9120 014a                 	LDS R18,A0_SQURE_MID
-00009e 9140 014b                 	LDS R20,A0_SQURE_HIGH
-0000a0 e0a3                      	LDI R26,0X03
-0000a1 e0b0                      	LDI R27,0X00
-0000a2 e0c0                      	LDI R28,0X00
-0000a3 d140                      	RCALL DIV
-0000a4 9300 0149                 	STS A0_SQURE_LOW,R16;LOW BYTE
-0000a6 9370 014a                 	STS A0_SQURE_MID,R23;MID BYTE
-0000a8 93d0 014b                 	STS A0_SQURE_HIGH,R29;HIGH BYTE
+                                 	;-----80XB0^2------
+000107 e500                      	LDI R16,0X50;
+000108 e010                      	LDI R17,0X00
+000109 91e0 0151                 	LDS R30,B0_SQURE_LOW
+00010b 91f0 0152                 	LDS R31,B0_SQURE_MID
+00010d d147                      	RCALL MULTI
+00010e 2d12                      	MOV R17,RES1  ;R2 ;LOW BYTE
+00010f 2d23                      	MOV R18,RES2  ;R3 ;MID BYTE
+000110 2d44                      	MOV R20,RES3  ;R4 ;HIGH BYTE
+000111 9220 0151                 	STS B0_SQURE_LOW,RES1;LOW BYTE
+000113 9230 0152                 	STS B0_SQURE_MID,RES2;MID BYTE
+000115 9240 0153                 	STS B0_SQURE_HIGH,RES3;HIGH BYTE
+000117 2422                      	CLR RES1
+000118 2433                      	CLR RES2
+000119 2444                      	CLR RES3
+00011a 2455                      	CLR RES4
+00011b d1cf                      	RCALL CLEAR
+                                 	;-----(80XB0^2)/3------
+00011c 9110 0151                 	LDS R17,B0_SQURE_LOW
+00011e 9120 0152                 	LDS R18,B0_SQURE_MID
+000120 9140 0153                 	LDS R20,B0_SQURE_HIGH
+000122 e0a3                      	LDI R26,0X03
+000123 e0b0                      	LDI R27,0X00
+000124 e0c0                      	LDI R28,0X00
+000125 d147                      	RCALL DIV
+000126 9300 0151                 	STS B0_SQURE_LOW,R16;LOW BYTE
+000128 9370 0152                 	STS B0_SQURE_MID,R23;MID BYTE
+00012a 93d0 0153                 	STS B0_SQURE_HIGH,R29;HIGH BYTE
                                  	;-----ADD----------------
-0000aa 2f10                      	MOV R17,R16
-0000ab 2f27                      	MOV R18,R23
-0000ac 2f4d                      	MOV R20,R29
-0000ad 9150 014c                 	LDS R21,C0_SQURE_LOW
-0000af 9160 014d                 	LDS R22,C0_SQURE_MID
-0000b1 9170 014e                 	LDS R23,C0_SQURE_HIGH
-0000b3 e080                      	LDI R24,0X00
-0000b4 0f15                      	ADD R17,R21
-0000b5 1f26                      	ADC R18,R22
-0000b6 1f47                      	ADC R20,R23
-0000b7 9310 014f                 	STS SQURE_LOW,R17;LOW BYTE
-0000b9 9320 0150                 	STS SQURE_MID,R18;MID BYTE
-0000bb 9340 0151                 	STS SQURE_HIGH,R20;HIGH BYTE
-0000bd 9180 014f                 	LDS R24,SQURE_LOW
-0000bf 9190 0150                 	LDS R25,SQURE_MID
-0000c1 91a0 0151                 	LDS R26,SQURE_HIGH
-0000c3 d145                      	RCALL SQURE_ROOT
+00012c 2f10                      	MOV R17,R16
+00012d 2f27                      	MOV R18,R23
+00012e 2f4d                      	MOV R20,R29
+00012f 9150 015d                 	LDS R21,DOWN_ROOT_01_L
+000131 9160 015e                 	LDS R22,DOWN_ROOT_01_M
+000133 9170 015f                 	LDS R23,DOWN_ROOT_01_H
+000135 e080                      	LDI R24,0X00
+000136 0f15                      	ADD R17,R21
+000137 1f26                      	ADC R18,R22
+000138 1f47                      	ADC R20,R23
+000139 9310 0154                 	STS SQURE_LOW,R17;LOW BYTE
+00013b 9320 0155                 	STS SQURE_MID,R18;MID BYTE
+00013d 9340 0156                 	STS SQURE_HIGH,R20;HIGH BYTE
+00013f 9180 0154                 	LDS R24,SQURE_LOW
+000141 9190 0155                 	LDS R25,SQURE_MID
+000143 91a0 0156                 	LDS R26,SQURE_HIGH
+000145 d14c                      	RCALL SQURE_ROOT
                                  ROOT1:
-0000c4 9340 014f                 	STS SQURE_LOW,R20
-0000c6 9350 0150                 	STS SQURE_MID,R21
-0000c8 d199                      	RCALL CLEAR
-0000c9 2422                      	CLR RES1
-0000ca 2433                      	CLR RES2
-0000cb 2444                      	CLR RES3
-0000cc 2455                      	CLR RES4
+000146 9340 0154                 	STS SQURE_LOW,R20
+000148 9350 0155                 	STS SQURE_MID,R21
+00014a d1a0                      	RCALL CLEAR
+00014b 2422                      	CLR RES1
+00014c 2433                      	CLR RES2
+00014d 2444                      	CLR RES3
+00014e 2455                      	CLR RES4
                                  	;----------3C------------------------
-0000cd e003                      	LDI R16,0X03;
-0000ce e010                      	LDI R17,0X00
-0000cf 91e0 0147                 	LDS R30,C0_LOW
-0000d1 91f0 0148                 	LDS R31,C0_HIGH
-0000d3 d0f8                      	RCALL MULTI
-0000d4 2d12                      	MOV R17,RES1  ;R2 ;LOW BYTE
-0000d5 2d23                      	MOV R18,RES2  ;R3 ;MID BYTE
-0000d6 2d44                      	MOV R20,RES3  ;R4 ;HIGH BYTE
+00014f e003                      	LDI R16,0X03;
+000150 e010                      	LDI R17,0X00
+000151 91e0 0166                 	LDS R30,TEMP_L
+000153 91f0 0168                 	LDS R31,TEMP_H
+000155 d0ff                      	RCALL MULTI
+000156 2d12                      	MOV R17,RES1  ;R2 ;LOW BYTE
+000157 2d23                      	MOV R18,RES2  ;R3 ;MID BYTE
+000158 2d44                      	MOV R20,RES3  ;R4 ;HIGH BYTE
                                  	;--------------3C+/-X-----------------------
-0000d7 9100 0153                 	LDS R16,C0_SIGN
-0000d9 ff00                      	SBRS R16,0
-0000da c00a                      	RJMP BRANCH_01
-0000db 9100 014f                 	LDS R16,SQURE_LOW
-0000dd 9130 0150                 	LDS R19,SQURE_MID
-0000df e050                      	LDI R21,0X00
-0000e0 1b01                      	SUB R16,R17
-0000e1 0b32                      	SBC R19,R18
-0000e2 0b54                      	SBC R21,R20
-0000e3 940c 00e6                 	JMP ROOT2
+000159 e000                      	LDI R16,LOW(R0_SIGN)
+00015a ff00                      	SBRS R16,0
+00015b c00a                      	RJMP BRANCH_01
+00015c 9100 0154                 	LDS R16,SQURE_LOW
+00015e 9130 0155                 	LDS R19,SQURE_MID
+000160 e050                      	LDI R21,0X00
+000161 1b01                      	SUB R16,R17
+000162 0b32                      	SBC R19,R18
+000163 0b54                      	SBC R21,R20
+000164 940c 0167                 	JMP ROOT2
                                  BRANCH_01:	
-0000e5 d152                      	RCALL ADD_VALUE
+000166 d15a                      	RCALL ADD_VALUE
                                  ROOT2:
                                  	;-------(3C+X)*PI---------------------------
-0000e6 2f13                      	MOV R17,R19
-0000e7 e3ea                      	LDI R30,LOW(PI)
-0000e8 e0f1                      	LDI R31,HIGH(PI)
-0000e9 d0e2                      	RCALL MULTI
-0000ea 9220 014f                 	STS SQURE_LOW,R2;LOW BYTE
-0000ec 9230 0150                 	STS SQURE_MID,R3;MID BYTE
-0000ee 9240 0151                 	STS SQURE_HIGH,R4;HIGH BYTE
+000167 2f13                      	MOV R17,R19
+000168 e3ea                      	LDI R30,LOW(PI)
+000169 e0f1                      	LDI R31,HIGH(PI)
+00016a d0ea                      	RCALL MULTI
+00016b 9220 0154                 	STS SQURE_LOW,R2;LOW BYTE
+00016d 9230 0155                 	STS SQURE_MID,R3;MID BYTE
+00016f 9240 0156                 	STS SQURE_HIGH,R4;HIGH BYTE
                                  	;-------8*18000*A0---------------------------
-0000f0 9100 0145                 	LDS R16,A0_LOW
-0000f2 9110 0146                 	LDS R17,A0_HIGH
-0000f4 e0ea                      	LDI R30,0X0A
-0000f5 e0f0                      	LDI R31,0X00
-0000f6 d0d5                      	RCALL MULTI
-0000f7 2d02                      	MOV R16,RES1
-0000f8 2d13                      	MOV R17,RES2
-0000f9 e4e0                      	LDI R30,LOW(UPPER_MULTI)
-0000fa e3f8                      	LDI R31,HIGH(UPPER_MULTI)
-0000fb d0d0                      	RCALL MULTI
+000171 9100 0149                 	LDS R16,B0_LOW
+000173 9110 014a                 	LDS R17,B0_HIGH
+000175 e0ea                      	LDI R30,0X0A
+000176 e0f0                      	LDI R31,0X00
+000177 d0dd                      	RCALL MULTI
+000178 2d02                      	MOV R16,RES1
+000179 2d13                      	MOV R17,RES2
+00017a e4e0                      	LDI R30,LOW(UPPER_MULTI)
+00017b e3f8                      	LDI R31,HIGH(UPPER_MULTI)
+00017c d0d8                      	RCALL MULTI
                                  ;-------FINAL--------------------------
-0000fc 2d12                      	MOV R17,RES1
-0000fd 2d23                      	MOV R18,RES2
-0000fe 2d44                      	MOV R20,RES3
-0000ff 91a0 014f                 	LDS R26,SQURE_LOW
-000101 91b0 0150                 	LDS R27,SQURE_MID
-000103 91c0 0151                 	LDS R28,SQURE_HIGH
-000105 d0de                      	RCALL DIV
+00017d 2d12                      	MOV R17,RES1
+00017e 2d23                      	MOV R18,RES2
+00017f 2d44                      	MOV R20,RES3
+000180 91a0 0154                 	LDS R26,SQURE_LOW
+000182 91b0 0155                 	LDS R27,SQURE_MID
+000184 91c0 0156                 	LDS R28,SQURE_HIGH
+000186 d0e6                      	RCALL DIV
                                  ;-------------------------FINAL VALUE IS SAVE IN THE RELAVANT MEMORY ADDRESS--------------------
-000106 9300 0154                 	STS FINAL,R16
+000187 9300 015a                 	STS X_FINAL,R16
                                  
                                  
                                  ;-----------------------------------------------------------------------------------------------
-000108 2fe0                      	MOV R30,R16
-000109 e330                      	LDI  R19,48
-00010a d08a                      	RCALL ASCII
-00010b d147                      	RCALL DELAY_MS
-00010c d155                      	RCALL CLEAR
+000189 2fe0                      	MOV R30,R16
+00018a e330                      	LDI  R19,48
+00018b d08a                      	RCALL ASCII
+00018c d14f                      	RCALL DELAY_MS
+00018d d15d                      	RCALL CLEAR
                                  ;-----------------------------------------------------------------------------------------------
                                  
                                  ;IF YOU WANT TO THE GET THE FINAL VALUE AND THE SIGN OF THE FINAL VALUE YOU CAN USE "FINAL" MEMORY ADDRESS TO ACCESS THE FINAL VALUE AND THE SIGN CAN BE GET BY ACCESS "A0_SIGN"
@@ -1337,485 +1470,493 @@ E:\OneDrive - University of Peradeniya\Project\Digital Spirit Leveler\Digital-Sp
                                  	
                                  	
                                  	;REMOVE PREVIOUS BULB VALUES
-00010d 9858                      	CBI PORTD, 0
-00010e 9859                      	CBI PORTD, 1
-00010f 985a                      	CBI PORTD, 2
-000110 985b                      	CBI PORTD, 3
+00018e 9858                      	CBI PORTD, 0
+00018f 9859                      	CBI PORTD, 1
+000190 985a                      	CBI PORTD, 2
+000191 985b                      	CBI PORTD, 3
                                  
-000111 982a                      	CBI PORTB, 2
-000112 982b                      	CBI PORTB, 3
-000113 982c                      	CBI PORTB, 4
-000114 982d                      	CBI PORTB, 5
+000192 982a                      	CBI PORTB, 2
+000193 982b                      	CBI PORTB, 3
+000194 982c                      	CBI PORTB, 4
+000195 982d                      	CBI PORTB, 5
                                  
-000115 9140 0154                 	LDS R20, FINAL
-000117 9150 0152                 	LDS R21, A0_SIGN
-000119 e021                      	LDI R18, 0B00000001
+000196 9140 015a                 	LDS R20, X_FINAL
+000198 9150 0157                 	LDS R21, A0_SIGN
+00019a e021                      	LDI R18, 0B00000001
                                  	
                                  	
-00011a e015                      	LDI R17, FIVE
-00011b 1741                      	CP R20, R17	
-00011c f420                      	BRSH SIGNCHECK
+00019b e015                      	LDI R17, FIVE
+00019c 1741                      	CP R20, R17	
+00019d f420                      	BRSH SIGNCHECK
                                  	;LDI R16, 0B00000100
-00011d 9a2a                      	SBI PORTB, 2
+00019e 9a2a                      	SBI PORTB, 2
                                  	;LDI R17, 0B00000001
-00011e 9a58                      	SBI PORTD, 0
+00019f 9a58                      	SBI PORTD, 0
                                  	;OUT PORTD, R17
                                  	;OUT PORTB, R16
-00011f d142                      	RCALL CLEAR
-000120 ceec                      	RJMP MAIN
+0001a0 d14a                      	RCALL CLEAR
+0001a1 ce6b                      	RJMP MAIN
                                  
                                  SIGNCHECK:
-000121 2352                      	AND R21, R18
-000122 1725                      	CP R18, R21
-000123 f009                      	BREQ MINUSSIGNAL
-000124 f491                      	BRNE PLUSSIGNAL
+0001a2 2352                      	AND R21, R18
+0001a3 1725                      	CP R18, R21
+0001a4 f009                      	BREQ MINUSSIGNAL
+0001a5 f491                      	BRNE PLUSSIGNAL
                                  
                                  MINUSSIGNAL:
-000125 e218                      	LDI R17, FOURTY
-000126 1741                      	CP  R20, R17
-000127 f418                      	BRSH MINUSSEVENTY
+0001a6 e218                      	LDI R17, FOURTY
+0001a7 1741                      	CP  R20, R17
+0001a8 f418                      	BRSH MINUSSEVENTY
                                  	;LDI R16, 0B00000100
                                  	;OUT PORTB, R16
-000128 9a2a                      	SBI PORTB, 2
-000129 d138                      	RCALL CLEAR
-00012a cee2                      	RJMP MAIN
+0001a9 9a2a                      	SBI PORTB, 2
+0001aa d140                      	RCALL CLEAR
+0001ab ce61                      	RJMP MAIN
                                  
                                  	MINUSSEVENTY:
-00012b e416                      		LDI R17, SEVENTY
-00012c 1741                      		CP R20, R17
-00012d f420                      		BRSH MINUSNINTY
+0001ac e416                      		LDI R17, SEVENTY
+0001ad 1741                      		CP R20, R17
+0001ae f420                      		BRSH MINUSNINTY
                                  		;LDI R16, 0B00001100
                                  		;OUT PORTB, R16
-00012e 9a2a                      		SBI PORTB, 2
-00012f 9a2b                      		SBI PORTB, 3
-000130 d131                      		RCALL CLEAR
-000131 cedb                      		RJMP MAIN
+0001af 9a2a                      		SBI PORTB, 2
+0001b0 9a2b                      		SBI PORTB, 3
+0001b1 d139                      		RCALL CLEAR
+0001b2 ce5a                      		RJMP MAIN
                                  
                                  		MINUSNINTY:
                                  			;LDI R16, 0B00011100
                                  			;OUT PORTB, R16
-000132 9a2a                      			SBI PORTB, 2
-000133 9a2b                      			SBI PORTB, 3
-000134 9a2c                      			SBI PORTB, 4
-000135 d12c                      			RCALL CLEAR
-000136 ced6                      			RJMP MAIN
+0001b3 9a2a                      			SBI PORTB, 2
+0001b4 9a2b                      			SBI PORTB, 3
+0001b5 9a2c                      			SBI PORTB, 4
+0001b6 d134                      			RCALL CLEAR
+0001b7 ce55                      			RJMP MAIN
                                  
                                  PLUSSIGNAL:
-000137 e218                      	LDI R17, FOURTY
-000138 1741                      	CP  R20, R17
-000139 f418                      	BRSH PLUSSEVENTY
+0001b8 e218                      	LDI R17, FOURTY
+0001b9 1741                      	CP  R20, R17
+0001ba f418                      	BRSH PLUSSEVENTY
                                  	;LDI R17, 0B00000001
                                  	;OUT PORTD, R17
-00013a 9a58                      	SBI PORTD, 0
-00013b d126                      	RCALL CLEAR
-00013c ced0                      	RJMP MAIN
+0001bb 9a58                      	SBI PORTD, 0
+0001bc d12e                      	RCALL CLEAR
+0001bd ce4f                      	RJMP MAIN
                                  
                                  	PLUSSEVENTY:
-00013d e416                      		LDI R17, SEVENTY
-00013e 1741                      		CP R20, R17
-00013f f420                      		BRSH PLUSNINTY
+0001be e416                      		LDI R17, SEVENTY
+0001bf 1741                      		CP R20, R17
+0001c0 f420                      		BRSH PLUSNINTY
                                  		;LDI R17, 0B00000011
                                  		;OUT PORTD, R17
-000140 9a58                      		SBI PORTD, 0
-000141 9a59                      		SBI PORTD, 1
-000142 d11f                      		RCALL CLEAR
-000143 cec9                      		RJMP MAIN
+0001c1 9a58                      		SBI PORTD, 0
+0001c2 9a59                      		SBI PORTD, 1
+0001c3 d127                      		RCALL CLEAR
+0001c4 ce48                      		RJMP MAIN
                                  
                                  		PLUSNINTY:
                                  			;LDI R17, 0B00000111
                                  			;OUT PORTD, R17
-000144 9a58                      			SBI PORTD, 0
-000145 9a59                      			SBI PORTD, 1
-000146 9a5a                      			SBI PORTD, 2
-000147 d11a                      			RCALL CLEAR
-000148 cec4                      			RJMP MAIN
+0001c5 9a58                      			SBI PORTD, 0
+0001c6 9a59                      			SBI PORTD, 1
+0001c7 9a5a                      			SBI PORTD, 2
+0001c8 d122                      			RCALL CLEAR
+0001c9 ce43                      			RJMP MAIN
                                  
                                  
                                  ;-----------------------------------------------------------------------------------------------
-000149 cec3                      	RJMP MAIN
+0001ca ce42                      	RJMP MAIN
                                  	
                                  ;-----------------------------------------------------------------------------------------------
                                  ;LCD INITIALIZING
                                  LCD_INIT:
-00014a e323                      	LDI R18,0X33
-00014b d015                      	RCALL COMMAND_WRITE ;INITIALIZING THE LCD FOR 4-BIT DATA 
-00014c d106                      	RCALL DELAY_MS
-00014d e322                      	LDI R18,0X32
-00014e d012                      	RCALL COMMAND_WRITE ;INITIALIZING THE LCD FOR 4-BIT DATA
-00014f d103                      	RCALL DELAY_MS
-000150 e228                      	LDI R18,0X28
-000151 d00f                      	RCALL COMMAND_WRITE ;LCD 2 LINES,5X7 MATRIX
-000152 d100                      	RCALL DELAY_MS
-000153 e02c                      	LDI R18,0X0C
-000154 d00c                      	RCALL COMMAND_WRITE ;DISPLAY ON,CURSOR OFF
-000155 e021                      	LDI R18,0X01
-000156 d00a                      	RCALL COMMAND_WRITE ;CLEAR LCD
-000157 d0fb                      	RCALL DELAY_MS
-000158 e026                      	LDI R18,0X06
-000159 d007                      	RCALL COMMAND_WRITE ;SHIFT CURSOR RIGHT
-00015a d0f8                      	RCALL DELAY_MS
-00015b d028                      	RCALL WORD
-00015c d0f6                      	RCALL DELAY_MS
-00015d ec20                      	LDI R18 ,0XC0
-00015e d002                      	RCALL COMMAND_WRITE
-00015f d0f3                      	RCALL DELAY_MS
-000160 9508                      	RET
+0001cb e323                      	LDI R18,0X33
+0001cc d015                      	RCALL COMMAND_WRITE ;INITIALIZING THE LCD FOR 4-BIT DATA 
+0001cd d10e                      	RCALL DELAY_MS
+0001ce e322                      	LDI R18,0X32
+0001cf d012                      	RCALL COMMAND_WRITE ;INITIALIZING THE LCD FOR 4-BIT DATA
+0001d0 d10b                      	RCALL DELAY_MS
+0001d1 e228                      	LDI R18,0X28
+0001d2 d00f                      	RCALL COMMAND_WRITE ;LCD 2 LINES,5X7 MATRIX
+0001d3 d108                      	RCALL DELAY_MS
+0001d4 e02c                      	LDI R18,0X0C
+0001d5 d00c                      	RCALL COMMAND_WRITE ;DISPLAY ON,CURSOR OFF
+0001d6 e021                      	LDI R18,0X01
+0001d7 d00a                      	RCALL COMMAND_WRITE ;CLEAR LCD
+0001d8 d103                      	RCALL DELAY_MS
+0001d9 e026                      	LDI R18,0X06
+0001da d007                      	RCALL COMMAND_WRITE ;SHIFT CURSOR RIGHT
+0001db d100                      	RCALL DELAY_MS
+0001dc d028                      	RCALL WORD
+0001dd d0fe                      	RCALL DELAY_MS
+0001de ec20                      	LDI R18 ,0XC0
+0001df d002                      	RCALL COMMAND_WRITE
+0001e0 d0fb                      	RCALL DELAY_MS
+0001e1 9508                      	RET
                                  ;-------------------------------------------------------------------------------------------------
                                  ;COMMAND WRITE
                                  COMMAND_WRITE:
-000161 2fb2                      	MOV R27,R18
-000162 7fb0                      	ANDI R27,0XF0 ;MASK LOW NIBBLE & KEEP HIGH NIBBLE
-000163 b9bb                      	OUT PORTD,R27 ;O/P COMMAND HIGH NOBBLE TO PORT D
-000164 9829                      	CBI PORTB,1   ;RS=0 FOR COMMAND
-000165 9a28                      	SBI PORTB,0   ;EN=1
-000166 940e 024b                 	CALL DELAY_SHORT
-000168 9828                      	CBI PORTB,0   ;SEND A IMPLUSE TO THE EN PIN
-000169 d0e4                      	RCALL DELAY_US ;DELAY IN MICRO SECOND
+0001e2 2fb2                      	MOV R27,R18
+0001e3 7fb0                      	ANDI R27,0XF0 ;MASK LOW NIBBLE & KEEP HIGH NIBBLE
+0001e4 b9bb                      	OUT PORTD,R27 ;O/P COMMAND HIGH NOBBLE TO PORT D
+0001e5 9829                      	CBI PORTB,1   ;RS=0 FOR COMMAND
+0001e6 9a28                      	SBI PORTB,0   ;EN=1
+0001e7 940e 02d4                 	CALL DELAY_SHORT
+0001e9 9828                      	CBI PORTB,0   ;SEND A IMPLUSE TO THE EN PIN
+0001ea d0ec                      	RCALL DELAY_US ;DELAY IN MICRO SECOND
                                  
-00016a 2fb2                      	MOV R27,R18
-00016b 95b2                      	SWAP R27
-00016c 7fb0                      	ANDI R27,0XF0
-00016d b9bb                      	OUT PORTD,R27
-00016e 9a28                      	SBI PORTB,0
-00016f d0db                      	RCALL DELAY_SHORT
-000170 9828                      	CBI PORTB,0 ;SEND A IMPLUSE TO THE EN PIN
-000171 d0dc                      	RCALL DELAY_US
-000172 9508                      	RET
+0001eb 2fb2                      	MOV R27,R18
+0001ec 95b2                      	SWAP R27
+0001ed 7fb0                      	ANDI R27,0XF0
+0001ee b9bb                      	OUT PORTD,R27
+0001ef 9a28                      	SBI PORTB,0
+0001f0 d0e3                      	RCALL DELAY_SHORT
+0001f1 9828                      	CBI PORTB,0 ;SEND A IMPLUSE TO THE EN PIN
+0001f2 d0e4                      	RCALL DELAY_US
+0001f3 9508                      	RET
                                  ;-------------------------------------------------------------------------------------------------
                                  ;DATA WRITE FUNCTION
                                  DATA_WRITE:
-000173 2fb2                      	MOV R27,R18
-000174 7fb0                      	ANDI R27,0XF0
-000175 b9bb                      	OUT PORTD,R27
-000176 9a29                      	SBI PORTB,1
-000177 9a28                      	SBI PORTB,0
-000178 d0d2                      	RCALL DELAY_SHORT
-000179 9828                      	CBI PORTB,0
-00017a d0d0                      	RCALL DELAY_SHORT
+0001f4 2fb2                      	MOV R27,R18
+0001f5 7fb0                      	ANDI R27,0XF0
+0001f6 b9bb                      	OUT PORTD,R27
+0001f7 9a29                      	SBI PORTB,1
+0001f8 9a28                      	SBI PORTB,0
+0001f9 d0da                      	RCALL DELAY_SHORT
+0001fa 9828                      	CBI PORTB,0
+0001fb d0d8                      	RCALL DELAY_SHORT
                                  	
-00017b 2fb2                      	MOV R27,R18
-00017c 95b2                      	SWAP R27
-00017d 7fb0                      	ANDI R27,0XF0
-00017e b9bb                      	OUT PORTD,R27
-00017f 9a28                      	SBI PORTB,0
-000180 d0ca                      	RCALL DELAY_SHORT
-000181 9828                      	CBI PORTB,0 
-000182 d0cb                      	RCALL DELAY_US
-000183 9508                      	RET
+0001fc 2fb2                      	MOV R27,R18
+0001fd 95b2                      	SWAP R27
+0001fe 7fb0                      	ANDI R27,0XF0
+0001ff b9bb                      	OUT PORTD,R27
+000200 9a28                      	SBI PORTB,0
+000201 d0d2                      	RCALL DELAY_SHORT
+000202 9828                      	CBI PORTB,0 
+000203 d0d3                      	RCALL DELAY_US
+000204 9508                      	RET
                                  ;-------------------------------------------------------------------------------------------------------
                                  ;PRINT THE ANGLE WORD IN THE LCD
                                  WORD:
-000184 e421                      	LDI R18,'A'
-000185 dfed                      	RCALL DATA_WRITE
-000186 e42e                      	LDI R18,'N'
-000187 dfeb                      	RCALL DATA_WRITE
-000188 e427                      	LDI R18,'G'
-000189 dfe9                      	RCALL DATA_WRITE
-00018a e42c                      	LDI R18,'L'
-00018b dfe7                      	RCALL DATA_WRITE
-00018c e425                      	LDI R18,'E'
-00018d dfe5                      	RCALL DATA_WRITE
-00018e e220                      	LDI R18,' '
-00018f dfe3                      	RCALL DATA_WRITE
-000190 e32a                      	LDI R18,':'
-000191 dfe1                      	RCALL DATA_WRITE
-000192 e220                      	LDI R18,' '
-000193 dfdf                      	RCALL DATA_WRITE
-000194 9508                      	RET
+000205 e421                      	LDI R18,'A'
+000206 dfed                      	RCALL DATA_WRITE
+000207 e42e                      	LDI R18,'N'
+000208 dfeb                      	RCALL DATA_WRITE
+000209 e427                      	LDI R18,'G'
+00020a dfe9                      	RCALL DATA_WRITE
+00020b e42c                      	LDI R18,'L'
+00020c dfe7                      	RCALL DATA_WRITE
+00020d e425                      	LDI R18,'E'
+00020e dfe5                      	RCALL DATA_WRITE
+00020f e220                      	LDI R18,' '
+000210 dfe3                      	RCALL DATA_WRITE
+000211 e32a                      	LDI R18,':'
+000212 dfe1                      	RCALL DATA_WRITE
+000213 e220                      	LDI R18,' '
+000214 dfdf                      	RCALL DATA_WRITE
+000215 9508                      	RET
                                  ;-----------------------------------------------------------------------------------------------------
                                  ASCII:
-000195 2788                      	CLR R24 ;SET THE COUNTER2 INTIAL VALUE O
-000196 2799                      	CLR R25 ;SET THE COUNTER3 INTIAL VALUE O
+000216 2788                      	CLR R24 ;SET THE COUNTER2 INTIAL VALUE O
+000217 2799                      	CLR R25 ;SET THE COUNTER3 INTIAL VALUE O
                                  	;CLEAR THE LCD 2ND LINE
-000197 e220                      	LDI R18,' '
-000198 dfda                      	RCALL DATA_WRITE
-000199 e220                      	LDI R18,' '
-00019a dfd8                      	RCALL DATA_WRITE
-00019b e220                      	LDI R18,' '
-00019c dfd6                      	RCALL DATA_WRITE
-00019d ec20                      	LDI R18,0XC0
-00019e dfc2                      	RCALL COMMAND_WRITE
+000218 e220                      	LDI R18,' '
+000219 dfda                      	RCALL DATA_WRITE
+00021a e220                      	LDI R18,' '
+00021b dfd8                      	RCALL DATA_WRITE
+00021c e220                      	LDI R18,' '
+00021d dfd6                      	RCALL DATA_WRITE
+00021e e220                      	LDI R18,' '
+00021f dfd4                      	RCALL DATA_WRITE
+000220 e220                      	LDI R18,' '
+000221 dfd2                      	RCALL DATA_WRITE
+000222 ec20                      	LDI R18,0XC0
+000223 dfbe                      	RCALL COMMAND_WRITE
+000224 e528                      	LDI R18,'X'
+000225 dfce                      	RCALL DATA_WRITE
+000226 e32a                      	LDI R18,':'
+000227 dfcc                      	RCALL DATA_WRITE
                                  LOOP9:
-00019f 2fbe                      	MOV R27,R30
-0001a0 36e4                      	CPI R30,100
+000228 2fbe                      	MOV R27,R30
+000229 36e4                      	CPI R30,100
                                  RUN1:
-0001a1 f01a                      	BRMI LOOP10 ;JUMP WHEN R30<100
+00022a f01a                      	BRMI LOOP10 ;JUMP WHEN R30<100
                                  RUN2:
-0001a2 9583                      	INC R24
-0001a3 56e4                      	SUBI R30,100 ;R16=R16-100
-0001a4 cffa                      	RJMP LOOP9
+00022b 9583                      	INC R24
+00022c 56e4                      	SUBI R30,100 ;R30=R30-100
+00022d cffa                      	RJMP LOOP9
                                  
                                  LOOP10:
-0001a5 30ea                      	CPI R30,10 ;COMPARE R30 WITH 10
-0001a6 f01a                      	BRMI DSP
-0001a7 9593                      	INC R25
-0001a8 50ea                      	SUBI R30,10
-0001a9 cffb                      	RJMP LOOP10
+00022e 30ea                      	CPI R30,10 ;COMPARE R30 WITH 10
+00022f f01a                      	BRMI DSP
+000230 9593                      	INC R25
+000231 50ea                      	SUBI R30,10
+000232 cffb                      	RJMP LOOP10
                                  
                                  DSP:
-0001aa e330                      	LDI  R19,48
+000233 e330                      	LDI  R19,48
                                  CHECK_01:
-0001ab 27cc                      	CLR R28
-0001ac 13bc                      	CPSE R27,R28
-0001ad d047                      	RCALL SIGN
+000234 27cc                      	CLR R28
+000235 13bc                      	CPSE R27,R28
+000236 d047                      	RCALL SIGN
                                  
                                  
                                  BRANCH2:
-0001ae 2f29                      	MOV R18,R25
-0001af 0f23                      	ADD R18,R19
-0001b0 dfc2                      	RCALL DATA_WRITE
+000237 2f29                      	MOV R18,R25
+000238 0f23                      	ADD R18,R19
+000239 dfba                      	RCALL DATA_WRITE
                                  
                                  BRANCH3:
-0001b1 2f2e                      	MOV R18,R30
-0001b2 0f23                      	ADD R18,R19
-0001b3 dfbf                      	RCALL DATA_WRITE
+00023a 2f2e                      	MOV R18,R30
+00023b 0f23                      	ADD R18,R19
+00023c dfb7                      	RCALL DATA_WRITE
                                  
-0001b4 ec20                      	LDI R18,0XC0
-0001b5 dfab                      	RCALL COMMAND_WRITE
-0001b6 d09c                      	RCALL DELAY_MS
+00023d ec20                      	LDI R18,0XC0
+00023e dfa3                      	RCALL COMMAND_WRITE
+00023f d09c                      	RCALL DELAY_MS
                                   
-0001b7 9508                      	RET
+000240 9508                      	RET
                                  ;--------------------------------------------------------------------------------------------------------------
                                  MAP:
                                  ;(1.48*X-493)
-0001b8 e904                      	LDI R16,0X94;148
-0001b9 e010                      	LDI R17,0X00
-0001ba d011                      	RCALL MULTI
-0001bb 2d12                      	MOV R17,RES1  ;R2
-0001bc 2d23                      	MOV R18,RES2  ;R3
-0001bd e040                      	LDI R20,0X00
-0001be 2700                      	CLR R16
-0001bf 2422                      	CLR RES1
-0001c0 2433                      	CLR RES2
-0001c1 2444                      	CLR RES3
-0001c2 2455                      	CLR RES4
-0001c3 e6a4                      	LDI R26,LOW(NUM1)
-0001c4 e0b0                      	LDI R27,HIGH(NUM1)
-0001c5 e0c0                      	LDI R28,0X00
-0001c6 d01d                      	RCALL DIV
+000241 e904                      	LDI R16,0X94;148
+000242 e010                      	LDI R17,0X00
+000243 d011                      	RCALL MULTI
+000244 2d12                      	MOV R17,RES1  ;R2
+000245 2d23                      	MOV R18,RES2  ;R3
+000246 e040                      	LDI R20,0X00
+000247 2700                      	CLR R16
+000248 2422                      	CLR RES1
+000249 2433                      	CLR RES2
+00024a 2444                      	CLR RES3
+00024b 2455                      	CLR RES4
+00024c e6a4                      	LDI R26,LOW(NUM1)
+00024d e0b0                      	LDI R27,HIGH(NUM1)
+00024e e0c0                      	LDI R28,0X00
+00024f d01d                      	RCALL DIV
                                  
-0001c7 5e0d                      	SUBI R16,LOW(SUB_NUM)
-0001c8 4071                      	SBCI R23,HIGH(SUB_NUM)
-0001c9 2f17                      	MOV R17,R23
-0001ca f08a                      	BRMI COMPLEMENT
-0001cb 9508                      	RET
+000250 5e0d                      	SUBI R16,LOW(SUB_NUM)
+000251 4071                      	SBCI R23,HIGH(SUB_NUM)
+000252 2f17                      	MOV R17,R23
+000253 f08a                      	BRMI COMPLEMENT
+000254 9508                      	RET
                                  ;--------------------------------------------------------------------------------------------------------------
                                  MULTI:
-0001cc 2733                      	CLR R19
-0001cd 9ff1                      	MUL R31,R17;HIGH
-0001ce 2c40                      	MOV RES3,R0
-0001cf 2c51                      	MOV RES4,R1
+000255 2733                      	CLR R19
+000256 9ff1                      	MUL R31,R17;HIGH
+000257 2c40                      	MOV RES3,R0
+000258 2c51                      	MOV RES4,R1
                                  
-0001d0 9fe0                      	MUL R30,R16;LOW
-0001d1 2c20                      	MOV RES1,R0
-0001d2 2c31                      	MOV RES2,R1
+000259 9fe0                      	MUL R30,R16;LOW
+00025a 2c20                      	MOV RES1,R0
+00025b 2c31                      	MOV RES2,R1
                                  
-0001d3 9ff0                      	MUL R31,R16
-0001d4 0c30                      	ADD RES2,R0
-0001d5 1c41                      	ADC RES3,R1
-0001d6 1e53                      	ADC RES4,R19
+00025c 9ff0                      	MUL R31,R16
+00025d 0c30                      	ADD RES2,R0
+00025e 1c41                      	ADC RES3,R1
+00025f 1e53                      	ADC RES4,R19
                                  
-0001d7 9fe1                      	MUL R30,R17
-0001d8 0c30                      	ADD RES2,R0
-0001d9 1c41                      	ADC RES3,R1
-0001da 1e53                      	ADC RES4,R19
-0001db 9508                      	RET
+000260 9fe1                      	MUL R30,R17
+000261 0c30                      	ADD RES2,R0
+000262 1c41                      	ADC RES3,R1
+000263 1e53                      	ADC RES4,R19
+000264 9508                      	RET
                                  ;--------------------------------------------------------------------------------------------------------------
                                  COMPLEMENT:
-0001dc 9500                      	COM R16
-0001dd 9510                      	COM R17
-0001de e021                      	LDI R18,0X01
-0001df 0f02                      	ADD R16,R18
-0001e0 e020                      	LDI R18,0X00
-0001e1 1f12                      	ADC R17,R18
-0001e2 e061                      	LDI R22,0X01
-0001e3 9508                      	RET
+000265 9500                      	COM R16
+000266 9510                      	COM R17
+000267 e021                      	LDI R18,0X01
+000268 0f02                      	ADD R16,R18
+000269 e020                      	LDI R18,0X00
+00026a 1f12                      	ADC R17,R18
+00026b e061                      	LDI R22,0X01
+00026c 9508                      	RET
                                  ;--------------------------------------------------------------------------------------------------------------
                                  
                                  DIV:
-0001e4 2700                      	CLR R16
-0001e5 2777                      	CLR R23
-0001e6 27dd                      	CLR R29
-0001e7 2733                      	CLR R19
-0001e8 2766                      	CLR R22
-0001e9 e051                      	LDI R21,0X01
-0001ea 2788                      	CLR R24
+00026d 2700                      	CLR R16
+00026e 2777                      	CLR R23
+00026f 27dd                      	CLR R29
+000270 2733                      	CLR R19
+000271 2766                      	CLR R22
+000272 e051                      	LDI R21,0X01
+000273 2788                      	CLR R24
                                  NEW_01:
-0001eb 1b1a                      	SUB R17,R26
-0001ec 0b2b                      	SBC R18,R27
-0001ed 0b4c                      	SBC R20,R28
-0001ee 0b36                      	SBC R19,R22
-0001ef f40a                      	BRPL LOAD
-0001f0 9508                      	RET	
+000274 1b1a                      	SUB R17,R26
+000275 0b2b                      	SBC R18,R27
+000276 0b4c                      	SBC R20,R28
+000277 0b36                      	SBC R19,R22
+000278 f40a                      	BRPL LOAD
+000279 9508                      	RET	
                                  
                                  LOAD:
-0001f1 0f05                      	ADD R16,R21;
-0001f2 1f78                      	ADC R23,R24
-0001f3 1fd8                      	ADC R29,R24
-0001f4 cff6                      	RJMP NEW_01
+00027a 0f05                      	ADD R16,R21;
+00027b 1f78                      	ADC R23,R24
+00027c 1fd8                      	ADC R29,R24
+00027d cff6                      	RJMP NEW_01
                                  ;----------------------------------------------------------------------------------------------------------------
                                  SIGN:
-0001f5 2722                      	CLR R18
-0001f6 e060                      	LDI R22,0X00
-0001f7 9120 0152                 	LDS R18,A0_SIGN
-0001f9 1326                      	CPSE R18,R22
-0001fa f412                      	BRPL MINS
-0001fb d004                      	RCALL PLUS
+00027e 2722                      	CLR R18
+00027f e060                      	LDI R22,0X00
+000280 9120 0157                 	LDS R18,A0_SIGN
+000282 1326                      	CPSE R18,R22
+000283 f412                      	BRPL MINS
+000284 d004                      	RCALL PLUS
                                  JUMP_01:
-0001fc 9508                      	RET
+000285 9508                      	RET
                                  
                                  MINS:
-0001fd e22d                      	LDI R18,'-'
-0001fe df74                      	RCALL DATA_WRITE
-0001ff cffc                      	RJMP JUMP_01
+000286 e22d                      	LDI R18,'-'
+000287 df6c                      	RCALL DATA_WRITE
+000288 cffc                      	RJMP JUMP_01
                                  PLUS:
-000200 e22b                      	LDI R18,'+'
-000201 df71                      	RCALL DATA_WRITE
-000202 cff9                      	RJMP JUMP_01
+000289 e22b                      	LDI R18,'+'
+00028a df69                      	RCALL DATA_WRITE
+00028b cff9                      	RJMP JUMP_01
                                  ;----------------------------------------------------------------------------------------------------------------
                                  POWER:
-000203 2f02                      	MOV R16,R18
-000204 2f1b                      	MOV R17,R27
-000205 2ffb                      	MOV R31,R27
-000206 2fe2                      	MOV R30,R18
-000207 dfc4                      	RCALL MULTI
-000208 9508                      	RET
+00028c 2f02                      	MOV R16,R18
+00028d 2f1b                      	MOV R17,R27
+00028e 2ffb                      	MOV R31,R27
+00028f 2fe2                      	MOV R30,R18
+000290 dfc4                      	RCALL MULTI
+000291 9508                      	RET
                                  ;----------------------------------------------------------------------------------------------------------------
                                  SQURE_ROOT:
-000209 2744                      	CLR R20
-00020a 2777                      	CLR R23
-00020b e064                      	LDI R22,0x04;HIGH BYTE
-00020c 2f26                      	MOV R18,R22
-00020d 27dd                      	CLR R29	;LOW BYTE
-00020e 27cc                      	CLR R28	;HIGH BYTE
-00020f c003                      	RJMP GONE2
+000292 2744                      	CLR R20
+000293 2777                      	CLR R23
+000294 e064                      	LDI R22,0x04;HIGH BYTE
+000295 2f26                      	MOV R18,R22
+000296 27dd                      	CLR R29	;LOW BYTE
+000297 27cc                      	CLR R28	;HIGH BYTE
+000298 c003                      	RJMP GONE2
                                  GONE1:
-000210 2fc4                      	MOV R28,R20
-000211 9566                      	LSR R22
-000212 f069                      	BREQ GONE3
+000299 2fc4                      	MOV R28,R20
+00029a 9566                      	LSR R22
+00029b f069                      	BREQ GONE3
                                  GONE2:
-000213 2f26                      	MOV R18,R22
-000214 2bc2                      	OR R28,R18
-000215 2f2d                      	MOV R18,R29
-000216 2fbc                      	MOV R27,R28
-000217 dfeb                      	RCALL POWER
-000218 1582                      	CP R24,RES1
-000219 0593                      	CPC R25,RES2
-00021a 05a4                      	CPC R26,RES3
-00021b 0575                      	CPC R23,RES4
-00021c f39a                      	BRMI GONE1
-00021d d000                      	RCALL SAVE1
+00029c 2f26                      	MOV R18,R22
+00029d 2bc2                      	OR R28,R18
+00029e 2f2d                      	MOV R18,R29
+00029f 2fbc                      	MOV R27,R28
+0002a0 dfeb                      	RCALL POWER
+0002a1 1582                      	CP R24,RES1
+0002a2 0593                      	CPC R25,RES2
+0002a3 05a4                      	CPC R26,RES3
+0002a4 0575                      	CPC R23,RES4
+0002a5 f39a                      	BRMI GONE1
+0002a6 d000                      	RCALL SAVE1
                                  SAVE1:
-00021e 2f4c                      	MOV R20,R28
-00021f cff0                      	RJMP GONE1
+0002a7 2f4c                      	MOV R20,R28
+0002a8 cff0                      	RJMP GONE1
                                  GONE3:
-000220 2f54                      	MOV R21,R20;HIGH BYTE
-000221 2744                      	CLR R20
-000222 e860                      	LDI R22,0X80
-000223 2f26                      	MOV R18,R22
-000224 27dd                      	CLR R29
-000225 2fc5                      	MOV R28,R21
-000226 c003                      	RJMP GONE5
+0002a9 2f54                      	MOV R21,R20;HIGH BYTE
+0002aa 2744                      	CLR R20
+0002ab e860                      	LDI R22,0X80
+0002ac 2f26                      	MOV R18,R22
+0002ad 27dd                      	CLR R29
+0002ae 2fc5                      	MOV R28,R21
+0002af c003                      	RJMP GONE5
                                  GONE4:
-000227 2fd4                      	MOV R29,R20
-000228 9566                      	LSR R22
-000229 f069                      	BREQ DONE
+0002b0 2fd4                      	MOV R29,R20
+0002b1 9566                      	LSR R22
+0002b2 f069                      	BREQ DONE
                                  GONE5:
-00022a 2f26                      	MOV R18,R22
-00022b 2bd2                      	OR R29,R18
-00022c 2f2d                      	MOV R18,R29
-00022d 2fbc                      	MOV R27,R28
-00022e dfd4                      	RCALL POWER
-00022f 1582                      	CP R24,RES1
-000230 0593                      	CPC R25,RES2
-000231 05a4                      	CPC R26,RES3
-000232 0575                      	CPC R23,RES4
-000233 f39a                      	BRMI GONE4
-000234 d000                      	RCALL SAVE2
+0002b3 2f26                      	MOV R18,R22
+0002b4 2bd2                      	OR R29,R18
+0002b5 2f2d                      	MOV R18,R29
+0002b6 2fbc                      	MOV R27,R28
+0002b7 dfd4                      	RCALL POWER
+0002b8 1582                      	CP R24,RES1
+0002b9 0593                      	CPC R25,RES2
+0002ba 05a4                      	CPC R26,RES3
+0002bb 0575                      	CPC R23,RES4
+0002bc f39a                      	BRMI GONE4
+0002bd d000                      	RCALL SAVE2
                                  SAVE2:
-000235 2f4d                      	MOV R20,R29
-000236 cff0                      	RJMP GONE4
+0002be 2f4d                      	MOV R20,R29
+0002bf cff0                      	RJMP GONE4
                                  DONE:
-000237 9508                      	RET
+0002c0 9508                      	RET
                                  ;----------------------------------------------------------------------------------------------------------------
                                  ADD_VALUE:
-000238 9100 014f                 	LDS R16,SQURE_LOW
-00023a 9130 0150                 	LDS R19,SQURE_MID
-00023c e050                      	LDI R21,0X00
-00023d 0f01                      	ADD R16,R17
-00023e 1f32                      	ADC R19,R18
-00023f 1f54                      	ADC R21,R20
-000240 9508                      	RET
+0002c1 9100 0154                 	LDS R16,SQURE_LOW
+0002c3 9130 0155                 	LDS R19,SQURE_MID
+0002c5 e050                      	LDI R21,0X00
+0002c6 0f01                      	ADD R16,R17
+0002c7 1f32                      	ADC R19,R18
+0002c8 1f54                      	ADC R21,R20
+0002c9 9508                      	RET
                                  ;----------------------------------------------------------------------------------------------------------------
                                  SUB_VALUE:
-000241 9100 014f                 	LDS R16,SQURE_LOW
-000243 9130 0150                 	LDS R19,SQURE_MID
-000245 e050                      	LDI R21,0X00
-000246 1b01                      	SUB R16,R17
-000247 0b32                      	SBC R19,R18
-000248 0b54                      	SBC R21,R20
-000249 940c 00e6                 	JMP ROOT2
+0002ca 9100 0154                 	LDS R16,SQURE_LOW
+0002cc 9130 0155                 	LDS R19,SQURE_MID
+0002ce e050                      	LDI R21,0X00
+0002cf 1b01                      	SUB R16,R17
+0002d0 0b32                      	SBC R19,R18
+0002d1 0b54                      	SBC R21,R20
+0002d2 940c 0167                 	JMP ROOT2
                                  ;----------------------------------------------------------------------------------------------------------------
                                  
                                  ;-----------------------------------------------------------------------------------------------------
                                  ;DELAY SHORT
                                  DELAY_SHORT:
-00024b 0000                      	NOP
-00024c 0000                      	NOP
-00024d 9508                      	RET
+0002d4 0000                      	NOP
+0002d5 0000                      	NOP
+0002d6 9508                      	RET
                                  ;------------------------------------------------------------------------------------------------------
                                  ;DELAY MICRO SECONDS
                                  DELAY_US:
-00024e e54a                      	LDI R20,90
+0002d7 e54a                      	LDI R20,90
                                  LOOP2:
-00024f dffb                      	RCALL DELAY_SHORT
-000250 954a                      	DEC R20
-000251 f7e9                      	BRNE LOOP2
-000252 9508                      	RET
+0002d8 dffb                      	RCALL DELAY_SHORT
+0002d9 954a                      	DEC R20
+0002da f7e9                      	BRNE LOOP2
+0002db 9508                      	RET
                                  ;------------------------------------------------------------------------------------------------------
                                  ;DELAY MILISECONDS
                                  DELAY_MS:
-000253 e258                      	LDI R21,40
+0002dc e258                      	LDI R21,40
                                  LOOP3:
-000254 dff9                      	RCALL DELAY_US
-000255 955a                      	DEC R21
-000256 f7e9                      	BRNE LOOP3
-000257 9508                      	RET
+0002dd dff9                      	RCALL DELAY_US
+0002de 955a                      	DEC R21
+0002df f7e9                      	BRNE LOOP3
+0002e0 9508                      	RET
                                  ;------------------------------------------------------------------------------------------------------
                                  ;DELAY_SECONDS
                                  DELAY_SECONDS:
-000258 ef4f                      	LDI R20,255
+0002e1 ef4f                      	LDI R20,255
                                  LOOP4:
-000259 ef5f                      	LDI R21,255
+0002e2 ef5f                      	LDI R21,255
                                  LOOP5:
-00025a e560                      	LDI R22,80
+0002e3 e560                      	LDI R22,80
                                  LOOP6:
-00025b 956a                      	DEC R22
-00025c f7f1                      	BRNE LOOP6
-00025d 955a                      	DEC R21
-00025e f7d9                      	BRNE LOOP5
-00025f 954a                      	DEC R20
-000260 f7c1                      	BRNE LOOP4
-000261 9508                      	RET
+0002e4 956a                      	DEC R22
+0002e5 f7f1                      	BRNE LOOP6
+0002e6 955a                      	DEC R21
+0002e7 f7d9                      	BRNE LOOP5
+0002e8 954a                      	DEC R20
+0002e9 f7c1                      	BRNE LOOP4
+0002ea 9508                      	RET
                                  ;------------------------------------------------------------------------------------------------------
                                  CLEAR:
-000262 2700                      	CLR R16
-000263 2711                      	CLR R17
-000264 2722                      	CLR R18
-000265 2733                      	CLR R19
-000266 2744                      	CLR R20
-000267 2755                      	CLR R21
-000268 2766                      	CLR R22
-000269 2777                      	CLR R23
-00026a 2788                      	CLR R24
-00026b 2799                      	CLR R25
-00026c 27aa                      	CLR R26
-00026d 27bb                      	CLR R27
-00026e 27cc                      	CLR R28
-00026f 27dd                      	CLR R29
-000270 27ee                      	CLR R30
-000271 27ff                      	CLR R31
-000272 9508                      	RET
+0002eb 2700                      	CLR R16
+0002ec 2711                      	CLR R17
+0002ed 2722                      	CLR R18
+0002ee 2733                      	CLR R19
+0002ef 2744                      	CLR R20
+0002f0 2755                      	CLR R21
+0002f1 2766                      	CLR R22
+0002f2 2777                      	CLR R23
+0002f3 2788                      	CLR R24
+0002f4 2799                      	CLR R25
+0002f5 27aa                      	CLR R26
+0002f6 27bb                      	CLR R27
+0002f7 27cc                      	CLR R28
+0002f8 27dd                      	CLR R29
+0002f9 27ee                      	CLR R30
+0002fa 27ff                      	CLR R31
+0002fb 9508                      	RET
                                  ;------------------------------------------------------------------------------------------------------
 
 
@@ -1834,39 +1975,39 @@ counted separately from r26..r31 here.
 .dseg memory usage only counts static data declared with .byte
 
 "ATmega328P" register use summary:
-x  :   0 y  :   0 z  :   0 r0 :   4 r1 :   4 r2 :  19 r3 :  21 r4 :  19 
-r5 :  11 r6 :   0 r7 :   0 r8 :   0 r9 :   0 r10:   0 r11:   0 r12:   0 
-r13:   0 r14:   0 r15:   0 r16:  46 r17:  50 r18:  65 r19:  17 r20:  31 
-r21:  21 r22:  20 r23:  12 r24:  10 r25:   7 r26:   8 r27:  27 r28:  14 
-r29:  12 r30:  23 r31:  16 
+x  :   0 y  :   0 z  :   0 r0 :   4 r1 :   4 r2 :  21 r3 :  23 r4 :  21 
+r5 :  12 r6 :   0 r7 :   0 r8 :   0 r9 :   0 r10:   0 r11:   0 r12:   0 
+r13:   0 r14:   0 r15:   0 r16:  60 r17:  66 r18:  79 r19:  23 r20:  40 
+r21:  30 r22:  21 r23:  12 r24:  13 r25:  10 r26:  11 r27:  31 r28:  14 
+r29:  12 r30:  27 r31:  20 
 Registers used: 22 out of 35 (62.9%)
 
 "ATmega328P" instruction use summary:
-.lds  :   0 .sts  :   0 adc   :  11 add   :   8 adiw  :   0 and   :   1 
+.lds  :   0 .sts  :   0 adc   :  20 add   :   8 adiw  :   0 and   :   1 
 andi  :   4 asr   :   0 bclr  :   0 bld   :   0 brbc  :   0 brbs  :   0 
 brcc  :   0 brcs  :   0 break :   0 breq  :   3 brge  :   0 brhc  :   0 
 brhs  :   0 brid  :   0 brie  :   0 brlo  :   0 brlt  :   0 brmi  :   5 
 brne  :   6 brpl  :   2 brsh  :   5 brtc  :   0 brts  :   0 brvc  :   0 
 brvs  :   0 bset  :   0 bst   :   0 call  :   1 cbi   :  14 cbr   :   0 
-clc   :   0 clh   :   0 cli   :   0 cln   :   0 clr   :  58 cls   :   0 
+clc   :   0 clh   :   0 cli   :   0 cln   :   0 clr   :  63 cls   :   0 
 clt   :   0 clv   :   0 clz   :   0 com   :   2 cp    :   8 cpc   :   6 
 cpi   :   2 cpse  :   2 dec   :   5 eor   :   0 fmul  :   0 fmuls :   0 
 fmulsu:   0 icall :   0 ijmp  :   0 in    :   0 inc   :   2 jmp   :   2 
-ld    :   0 ldd   :   0 ldi   :  79 lds   :  44 lpm   :   0 lsl   :   0 
-lsr   :   2 mov   :  48 movw  :   0 mul   :   4 muls  :   0 mulsu :   0 
+ld    :   0 ldd   :   0 ldi   :  88 lds   :  69 lpm   :   0 lsl   :   0 
+lsr   :   2 mov   :  57 movw  :   0 mul   :   4 muls  :   0 mulsu :   0 
 neg   :   0 nop   :   2 or    :   2 ori   :   0 out   :   6 pop   :   0 
-push  :   0 rcall :  82 ret   :  18 reti  :   0 rjmp  :  20 rol   :   0 
+push  :   0 rcall :  93 ret   :  18 reti  :   0 rjmp  :  21 rol   :   0 
 ror   :   0 sbc   :   7 sbci  :   1 sbi   :  19 sbic  :   0 sbis  :   0 
-sbiw  :   0 sbr   :   0 sbrc  :   0 sbrs  :   3 sec   :   0 seh   :   0 
+sbiw  :   0 sbr   :   0 sbrc  :   0 sbrs  :   4 sec   :   0 seh   :   0 
 sei   :   0 sen   :   0 ser   :   0 ses   :   0 set   :   0 sev   :   0 
-sez   :   0 sleep :   0 spm   :   0 st    :   0 std   :   0 sts   :  44 
+sez   :   0 sleep :   0 spm   :   0 st    :   0 std   :   0 sts   :  65 
 sub   :   3 subi  :   3 swap  :   2 tst   :   0 wdr   :   0 
 Instructions used: 39 out of 113 (34.5%)
 
 "ATmega328P" memory use summary [bytes]:
 Segment   Begin    End      Code   Data   Used    Size   Use%
 ---------------------------------------------------------------
-[.cseg] 0x000000 0x0004e6   1254      0   1254   32768   3.8%
+[.cseg] 0x000000 0x0005f8   1528      0   1528   32768   4.7%
 [.dseg] 0x000100 0x000100      0      0      0    2048   0.0%
 [.eseg] 0x000000 0x000000      0      0      0    1024   0.0%
 
