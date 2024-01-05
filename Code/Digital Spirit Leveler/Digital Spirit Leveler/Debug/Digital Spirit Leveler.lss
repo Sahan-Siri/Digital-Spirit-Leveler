@@ -1,5 +1,5 @@
 
-AVRASM ver. 2.2.8  E:\OneDrive - University of Peradeniya\Project\Digital Spirit Leveler\Digital-Spirit-Leveler\Code\Digital Spirit Leveler\Digital Spirit Leveler\main.asm Fri Jan 05 21:45:18 2024
+AVRASM ver. 2.2.8  E:\OneDrive - University of Peradeniya\Project\Digital Spirit Leveler\Digital-Spirit-Leveler\Code\Digital Spirit Leveler\Digital Spirit Leveler\main.asm Fri Jan 05 21:49:06 2024
 
 [builtin](2): Including file 'C:/Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\avrasm\inc\m328Pdef.inc'
 E:\OneDrive - University of Peradeniya\Project\Digital Spirit Leveler\Digital-Spirit-Leveler\Code\Digital Spirit Leveler\Digital Spirit Leveler\main.asm(9): Including file 'C:/Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\avrasm\inc\M328PDEF.INC'
@@ -1725,7 +1725,7 @@ E:\OneDrive - University of Peradeniya\Project\Digital Spirit Leveler\Digital-Sp
 0002d3 9b1d                      	SBIS PINB,5
 0002d4 c05a                      	RJMP BASIC
                                  
-                                 ;------------------------------------------PRINTING-----------------------------------------------------
+                                 ;------------------------------------------ADVANCE-----------------------------------------------------
                                  	;CLEAR THE LCD 2ND LINE
 0002d5 9858                      	CBI PORTD, 0
 0002d6 9859                      	CBI PORTD, 1
@@ -1820,7 +1820,7 @@ E:\OneDrive - University of Peradeniya\Project\Digital Spirit Leveler\Digital-Sp
 00032d d178                      	RCALL CLEAR
 00032e ccde                      	RJMP MAIN
                                  
-                                 ;-----------------------------------------------------------------------------------------------
+                                 ;--------------------------------------BASIC---------------------------------------------------------
                                  
                                  BASIC:
                                  	
